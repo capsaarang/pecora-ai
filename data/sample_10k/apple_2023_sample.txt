@@ -1,0 +1,241 @@
+UNITED STATES
+SECURITIES AND EXCHANGE COMMISSION
+Washington, D.C. 20549
+
+FORM 10-K
+
+ANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d)
+OF THE SECURITIES EXCHANGE ACT OF 1934
+
+For the fiscal year ended September 30, 2023
+
+Commission File Number: 0-10030
+
+APPLE INC.
+(Exact name of Registrant as specified in its charter)
+
+California                          94-2404110
+One Apple Park Way
+Cupertino, California 95014
+(408) 996-1010
+
+Securities registered pursuant to Section 12(b) of the Act:
+Common Stock, $0.00001 par value per share  AAPL  The Nasdaq Stock Market LLC
+
+
+Item 1. Business
+
+Apple Inc. and its wholly-owned subsidiaries (collectively "Apple" or the "Company") designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide and sells a variety of related services. The Company's fiscal year is the 52- or 53-week period that ends on the last Saturday of September.
+
+The Company's products and services include iPhone, Mac, iPad, AirPods, Apple TV, Apple Watch, Beats products, AppleCare, iCloud, digital content stores, streaming and licensing services. The Company sells its products globally through its retail stores, online stores, and direct sales force, as well as through third-party cellular network carriers, wholesalers, retailers, and resellers.
+
+Products
+
+iPhone. iPhone is the Company's line of smartphones based on its iOS operating system. Net sales from iPhone represented approximately 52% of the Company's total net sales for fiscal 2023.
+
+Mac. Mac is the Company's line of personal computers based on its macOS operating system. Net sales from Mac represented approximately 8% of the Company's total net sales for fiscal 2023.
+
+iPad. iPad is the Company's line of multipurpose tablets based on its iPadOS operating system. Net sales from iPad represented approximately 7% of the Company's total net sales for fiscal 2023.
+
+Wearables, Home and Accessories. Wearables, Home and Accessories includes AirPods, Apple TV, Apple Watch, Beats products, HomePod, and iPod touch. Net sales from Wearables, Home and Accessories represented approximately 11% of the Company's total net sales for fiscal 2023.
+
+Services. Services includes advertising, AppleCare, cloud services, digital content, and payment services. Net sales from Services represented approximately 22% of the Company's total net sales for fiscal 2023.
+
+
+Item 1A. Risk Factors
+
+The following discussion of risk factors contains forward-looking statements. These risk factors may be important to understanding other statements in this Form 10-K. The following information should be read in conjunction with Part II, Item 7, "Management's Discussion and Analysis of Financial Condition and Results of Operations" and the consolidated financial statements and related notes in Part II, Item 8, "Financial Statements and Supplementary Data" of this Form 10-K.
+
+Because of the following factors, as well as other factors affecting the Company's financial condition and operating results, past financial performance should not be considered to be a reliable indicator of future performance, and investors should not use historical trends to anticipate results or trends in future periods.
+
+Risks Related to Macroeconomic Conditions
+
+The Company's operations and performance depend significantly on global and regional economic conditions. Adverse macroeconomic conditions, including slow growth or recession, high unemployment, inflation, tighter credit, higher interest rates, and currency fluctuations may adversely impact consumer confidence and spending and, accordingly, demand for the Company's products and services.
+
+Global and regional economic conditions and geopolitical uncertainty, including tensions between China and Taiwan, may impair the Company's ability to manufacture and deliver products. The Company's global operations are subject to complex foreign and domestic regulations, including regulations relating to trade restrictions and sanctions, anti-corruption laws, customs and import/export requirements, and taxes.
+
+Risks Related to Competition and Market Conditions
+
+The markets for the Company's products and services are highly competitive, and the Company is subject to intense competition in all areas of its business. The Company's competitors have access to unlimited resources and substantial financial resources to develop competing products. Competition may intensify further as competitors enter the artificial intelligence and machine learning markets. The Company believes that the principal competitive factors in the markets it participates in include performance, pricing, innovation, product quality, reliability, and brand image. The Company's competitors include large, established companies with substantial resources, as well as new market entrants. The Company's competitive position may erode if it is unable to continually improve existing products and timely develop new products.
+
+Revenue Concentration Risk
+
+A significant portion of the Company's net sales comes from a limited number of products and services. If demand for iPhone, which represented approximately 52% of total net sales in fiscal 2023, were to decline significantly due to competition, technological changes, consumer preferences, or other factors, the Company's net sales and financial results could be materially adversely affected. The Company's revenue is highly concentrated and any disruption to iPhone demand could have a disproportionate impact on overall financial performance.
+
+Risks Related to the Company's Supply Chain
+
+The Company depends on single-source or limited-source suppliers for several key components used in its products, including processors and advanced semiconductors. The Company's ability to produce and sell products is dependent upon the continued availability of these components from suppliers located primarily in Asia, particularly China, Taiwan, South Korea, and Japan. Any disruption to the supply of these components, whether due to geopolitical events, natural disasters, trade restrictions, or other factors, could adversely affect the Company's manufacturing operations and financial results.
+
+Risks Related to Intellectual Property
+
+The Company currently holds a broad collection of intellectual property rights relating to certain aspects of its hardware devices, accessories, software, services, manufacturing processes, and user interfaces. However, the Company cannot be certain that the steps it has taken to protect its intellectual property will be adequate. There is a risk that third parties may copy or otherwise obtain and use the Company's proprietary information without authorization, or may independently develop the same or similar technology. The Company is frequently involved in litigation with third parties who claim infringement of their intellectual property, and the Company has received notices from third parties claiming that products sold by the Company infringe their intellectual property rights.
+
+Risks Related to Regulatory Compliance and Legal Proceedings
+
+The Company's business is subject to a wide variety of laws and regulations globally. Failure to comply with applicable laws or regulations could result in financial penalties, reputational damage, or restrictions on the Company's ability to operate. The Company is subject to ongoing regulatory investigations in multiple jurisdictions, including antitrust investigations by the European Commission and various national competition authorities.
+
+The Digital Markets Act in the European Union requires the Company to make significant changes to how it operates the App Store in Europe, including allowing third-party app stores on iOS. The potential impact of these regulatory changes on the Company's Services revenue is currently uncertain but could be material.
+
+Cybersecurity and Data Privacy Risks
+
+The Company's operations involve the storage and transmission of customers' personal and financial information, employees' personal information, and the Company's proprietary business information. If the Company's security controls are breached, or if the Company is unable to detect security breaches, the Company could be exposed to significant liability and reputational harm.
+
+
+Item 1B. Unresolved Staff Comments
+
+None.
+
+
+Item 2. Properties
+
+The Company's headquarters are located in Cupertino, California. The Company has retail stores throughout the United States and internationally. The Company owns and leases facilities for retail, research and development, and other purposes.
+
+
+Item 3. Legal Proceedings
+
+The Company is subject to legal proceedings, claims, and investigations in the ordinary course of business, including those related to intellectual property, commercial matters, privacy, consumer protection, securities, tax, and labor and employment.
+
+Securities Class Action
+
+In December 2018, a class action complaint was filed in the United States District Court for the Northern District of California against the Company and certain of its officers alleging violations of the federal securities laws related to the Company's disclosures regarding iPhone demand. In 2020, the court certified the class. Discovery is ongoing. The Company believes it has meritorious defenses and intends to defend vigorously.
+
+App Store Antitrust Litigation
+
+The Company is party to litigation filed in 2019 challenging the Company's App Store practices under U.S. antitrust law. The plaintiffs allege that the Company's requirement that iPhone app developers use the Company's payment processing system constitutes an illegal monopoly. The case went to trial in 2021 and the District Court ruled largely in favor of the Company, though it required certain changes to App Store policies. Appeals by both parties are pending before the Ninth Circuit.
+
+European Commission Investigation
+
+The European Commission is investigating whether the Company's App Store rules are in violation of EU competition law. In April 2023, the European Commission issued its preliminary findings that the Company has abused its dominant position in the distribution of apps to iPhone users in the European Economic Area. The Company is challenging these findings. If the European Commission issues a final decision finding a violation, the fine could be up to 10% of the Company's annual worldwide revenues, which would be material.
+
+Qualcomm and Other Patent Disputes
+
+The Company is involved in various patent disputes globally. While individual claims may be significant, the Company does not currently believe any single matter or group of related matters will have a material adverse effect on the Company's financial condition or results of operations, except as noted above. However, litigation is inherently unpredictable and the Company cannot give any assurance as to the ultimate outcome of any specific matter.
+
+
+Item 7. Management's Discussion and Analysis of Financial Condition and Results of Operations
+
+The following discussion should be read in conjunction with the consolidated financial statements and accompanying notes included in Part II, Item 8 of this Form 10-K. This section contains forward-looking statements that involve risks and uncertainties. The Company's actual results could differ materially from those anticipated in these forward-looking statements as a result of various factors.
+
+Revenue
+
+Net sales for fiscal 2023 totaled $394.3 billion, approximately flat compared to $394.3 billion in fiscal 2022. Products net sales decreased $13.6 billion or 7% to $298.1 billion. Services net sales increased $8.2 billion or 9% to $85.2 billion.
+
+iPhone net sales were $200.6 billion, compared to $205.5 billion in fiscal 2022, a decrease of $4.9 billion or 2%.
+
+Mac net sales were $29.4 billion, compared to $40.2 billion in fiscal 2022, a decrease of $10.8 billion or 27%.
+
+iPad net sales were $28.3 billion, compared to $29.3 billion in fiscal 2022, a decrease of $1.0 billion or 3%.
+
+Wearables, Home and Accessories net sales were $39.8 billion, compared to $41.2 billion in fiscal 2022, a decrease of $1.4 billion or 3%.
+
+Services net sales were $85.2 billion, compared to $78.1 billion in fiscal 2022, an increase of $7.1 billion or 9%. The Company's installed base of active devices reached an all-time high in fiscal 2023.
+
+Gross Margin
+
+Gross margin was $169.1 billion, or 44.1% of net sales, compared to $170.8 billion, or 43.3% of net sales in fiscal 2022. Gross margin percentage increased year-over-year primarily due to favorable Services mix and cost savings, partially offset by the weakness in foreign currencies relative to the U.S. dollar.
+
+Products gross margin was $83.5 billion, or 28.0% of Products net sales, compared to $87.0 billion, or 27.9% of Products net sales in fiscal 2022.
+
+Services gross margin was $60.3 billion, or 70.8% of Services net sales, compared to $56.1 billion, or 71.7% of Services net sales in fiscal 2022. Services gross margin percentage decreased year-over-year primarily due to the mix of Services and higher content costs.
+
+Operating Expenses
+
+Research and development expense was $29.9 billion, an increase of $1.4 billion or 5% compared to fiscal 2022. The increase was due primarily to increases in headcount-related expenses.
+
+Selling, general and administrative expense was $24.9 billion, an increase of $0.5 billion or 2% compared to fiscal 2022.
+
+Liquidity and Capital Resources
+
+The Company's primary sources of liquidity are its existing cash, cash equivalents, and marketable securities, as well as cash generated by ongoing operations. As of September 30, 2023, the Company had $61.6 billion in cash, cash equivalents, and marketable securities.
+
+The Company currently holds $162.1 billion of long-term debt, with maturities ranging from 2024 through 2060. Of this amount, $11.1 billion is due within the next 12 months. The Company believes its existing balances of cash, cash equivalents, and current marketable securities, along with commercial paper, term debt, and future cash flows from operations, will be sufficient to satisfy its cash needs.
+
+During fiscal 2023, the Company repurchased $77.6 billion of its common stock and paid dividends and dividend equivalents of $14.8 billion, returning over $92 billion to shareholders.
+
+Capital expenditures were $10.7 billion for fiscal 2023, consisting primarily of product tooling and manufacturing process equipment, data center equipment, corporate facilities, and retail stores.
+
+Non-GAAP Financial Measures
+
+In discussing financial results, the Company uses certain non-GAAP financial measures. These non-GAAP measures exclude the impact of stock-based compensation expense of $10.8 billion and acquired intangible asset amortization of $0.4 billion. The Company believes these non-GAAP measures provide useful information to investors about the Company's operating performance and enable comparison to prior periods. Non-GAAP measures should not be considered as a substitute for GAAP financial results.
+
+Forward-Looking Statements and Outlook
+
+The Company expects revenue for the fiscal first quarter of 2024 to be approximately flat to slightly higher year-over-year. The Company expects Services revenue to grow double-digits year-over-year in the first quarter. The Company expects gross margin to be between 45% and 46% for the first quarter.
+
+These forward-looking statements involve risks and uncertainties. Actual results may differ materially from these expectations due to macroeconomic conditions, competition, consumer demand, regulatory developments, and other factors described in Part I, Item 1A.
+
+
+Item 8. Financial Statements and Supplementary Data
+
+CONSOLIDATED STATEMENTS OF OPERATIONS
+(In millions, except number of shares and per share amounts)
+
+                                          2023          2022          2021
+Net sales:
+  Products                             $298,085      $316,199      $297,392
+  Services                               85,200        78,129        68,425
+    Total net sales                     383,285       394,328       365,817
+
+Cost of sales:
+  Products                             $214,557      $229,234      $192,266
+  Services                               24,855        22,075        20,715
+    Total cost of sales                 239,412       251,309       212,981
+
+Gross margin                            168,873       170,782 (*)   152,836
+
+(*) Restated to reflect reclassification of certain prior period amounts. See Note 1.
+
+Operating expenses:
+  Research and development               29,915        26,251        21,914
+  Selling, general and administrative    24,932        25,094        21,973
+    Total operating expenses             54,847        51,345        43,887
+
+Operating income                        114,301       119,437       108,949
+
+
+NOTE 1. Summary of Significant Accounting Policies
+
+Basis of Presentation and Preparation
+
+The accompanying consolidated financial statements include the accounts of the Company and its wholly-owned subsidiaries. The preparation of these financial statements and accompanying notes requires management to make estimates and assumptions that affect the amounts reported. Actual results could differ materially from those estimates.
+
+Revenue Recognition
+
+The Company recognizes revenue when control of the promised products or services is transferred to customers. For products, this is typically upon delivery. For services delivered over time, revenue is recognized ratably over the service period.
+
+For arrangements with multiple performance obligations, the Company allocates revenue based on relative standalone selling prices. The determination of standalone selling prices requires significant judgment.
+
+NOTE 6. Debt
+
+The Company issues unsecured short-term promissory notes pursuant to a commercial paper program. As of September 30, 2023, the Company had $6.0 billion of commercial paper outstanding, with a weighted-average interest rate of 5.25%.
+
+As of September 30, 2023, the Company had outstanding fixed-rate notes with varying maturities for an aggregate carrying amount of $105.1 billion, and outstanding floating-rate notes with varying maturities for an aggregate carrying amount of $49.7 billion, with a total carrying amount of $154.8 billion.
+
+The following table presents future principal payments for the Company's term debt as of September 30, 2023:
+
+2024:    $11.1 billion
+2025:     $9.9 billion
+2026:    $12.3 billion
+2027:     $5.0 billion
+2028:     $6.5 billion
+Thereafter: $117.3 billion
+
+The Company maintains $15.0 billion in revolving credit facilities. As of September 30, 2023, none of the revolving credit facilities had been drawn upon.
+
+NOTE 9. Commitments and Contingencies
+
+Operating Leases
+
+The Company has entered into operating lease arrangements for retail stores, offices, data centers, and co-location facilities with lease terms ranging from 1 to 20 years. The Company's total undiscounted operating lease payments are $16.1 billion.
+
+Purchase Obligations
+
+The Company has entered into various purchase commitments primarily for components used in manufacturing. The Company had $54.3 billion in off-balance-sheet purchase obligations as of September 30, 2023, of which $36.0 billion is due within the next 12 months.
+
+NOTE 14. Related-Party Transactions
+
+Certain members of the Company's Board of Directors also serve on the boards of companies with which the Company conducts business in the ordinary course. The Company has entered into transactions with these companies on terms the Company believes are no less favorable than those available from unrelated parties. Such transactions are reviewed by the Audit and Finance Committee of the Board of Directors.
+
+During fiscal 2023, the Company made payments of approximately $487 million to suppliers in which members of the Company's Board of Directors hold board seats or executive positions. These transactions were conducted in the ordinary course of business and were reviewed and approved pursuant to the Company's related party transaction policy. The Company believes these transactions were on arm's-length terms.
+
+Additionally, the Company licenses technology from a venture fund in which certain Company officers are limited partners. The terms of this license agreement have not been publicly disclosed. The Company's Audit Committee has reviewed and approved this arrangement.
