@@ -91,4 +91,4 @@ tests/           offline test suite
 
 ## Team
 
-Saarang Govinda Rajan, Mark [last name] · UW-Madison
+Saarang Govinda Rajan, Mark Aashish Lnu · UW-Madison
