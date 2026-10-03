@@ -8,7 +8,6 @@ Two modes:
     works offline, and is your backup if venue wifi fails)
   - Live run: runs the full pipeline against EDGAR
 """
-
 import glob
 import html
 import json
