@@ -3,19 +3,28 @@ Pecora.ai demo UI
 
     streamlit run app.py
 
-Two modes:
+Three modes:
   - Case files: load saved results from outputs/adversarial (no API calls,
     works offline, and is your backup if venue wifi fails)
   - Live run: runs the full pipeline against EDGAR
+  - Numbers check: peer distributions from SEC XBRL (outputs/quant), no LLM
 """
 import glob
 import html
 import json
 import os
 
+import altair as alt
+import numpy as np
+import pandas as pd
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv()  # SEC_EMAIL and ANTHROPIC_API_KEY for the live modes
 
 RESULTS_DIR = "outputs/adversarial"
+QUANT_DIR = "outputs/quant"
+BENEISH_CUTOFF = -1.78  # same as pecora.quant.metrics; not imported so the viewer stays light
 
 st.set_page_config(page_title="Pecora.ai", page_icon="⚖️", layout="wide")
 
@@ -61,8 +70,15 @@ def load_json(path: str) -> dict:
 def cite_line(quote: str, pid: str, check: dict | None) -> str:
     mark = ""
     if check is not None:
-        mark = ('<span class="ok">✓ verified</span>' if check.get("verified")
-                else f'<span class="bad">✗ not found ({check.get("score", 0):.2f})</span>')
+        status = check.get("status")
+        if check.get("verified"):
+            mark = '<span class="ok">✓ verified</span>'
+        elif status == "altered":
+            mark = f'<span class="bad">✗ altered: {esc("; ".join(check.get("changes", [])))}</span>'
+        elif status == "wrong_passage":
+            mark = f'<span class="bad">✗ quote is from {esc(check.get("found_in"))}, not {esc(pid)}</span>'
+        else:
+            mark = f'<span class="bad">✗ not found ({check.get("score", 0):.2f})</span>'
     return f'<div class="cite">[{esc(pid)}] “{esc(quote)}” &nbsp; {mark}</div>'
 
 
@@ -123,7 +139,8 @@ def render_result(r: dict):
                 f' · {"anonymized" if m.get("anonymized") else "NOT anonymized"}'
                 f' · filed {esc(m.get("filing_date", "n/a"))}</div>', unsafe_allow_html=True)
     c1, c2, c3, c4 = st.columns([2, 1, 1, 1])
-    c1.markdown(f'<div class="signal">{s["signal_score"]}</div>'
+    signal = "n/a" if s["signal_score"] is None else s["signal_score"]
+    c1.markdown(f'<div class="signal">{signal}</div>'
                 f'<div class="signal-label">Adversarial signal / 100</div>', unsafe_allow_html=True)
     c2.metric("Upheld", s["verdicts"].get("UPHELD", 0))
     c3.metric("Dismissed", s["verdicts"].get("DISMISSED", 0))
@@ -136,10 +153,11 @@ def render_result(r: dict):
 
 def render_backtest(b: dict):
     st.markdown('<div class="case-head">Backtest · target vs control</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="signal">{b["signal_gap"]:+}</div>'
+    gap = "n/a" if b["signal_gap"] is None else f"{b['signal_gap']:+}"
+    st.markdown(f'<div class="signal">{gap}</div>'
                 f'<div class="signal-label">Signal gap: target minus control</div>', unsafe_allow_html=True)
-    st.bar_chart({f"{r['ticker']} FY{r['fiscal_year']} ({r['role']})": r["signal_score"] for r in b["rows"]},
-                 horizontal=True)
+    st.bar_chart({f"{r['ticker']} FY{r['fiscal_year']} ({r['role']})": r["signal_score"]
+                  for r in b["rows"] if r["signal_score"] is not None}, horizontal=True)
     st.dataframe([{k: v for k, v in r.items() if k != "result_file"} for r in b["rows"]],
                  hide_index=True, width="stretch")
     # Streamlit cannot nest expanders, so pick a case file to open below
@@ -151,13 +169,97 @@ def render_backtest(b: dict):
         render_result(load_json(pick["result_file"]))
 
 
+def peer_range(dist: np.ndarray, value: float) -> tuple[float, float]:
+    """Axis range: 3 IQRs beyond the quartiles (ratio metrics have huge outliers), always showing the company."""
+    q1, q3 = np.percentile(dist, [25, 75])
+    lo, hi = max(dist.min(), q1 - 3 * (q3 - q1)), min(dist.max(), q3 + 3 * (q3 - q1))
+    return min(lo, value), max(hi, value)
+
+
+def peer_chart(row: dict) -> alt.Chart:
+    """Peer histogram with the company (solid) and peer median (dashed) marked."""
+    dist = np.array(row["distribution"])
+    lo, hi = peer_range(dist, row["value"])
+    shown = pd.DataFrame({"value": dist[(dist >= lo) & (dist <= hi)]})
+    ink = "#b3261e" if row["flagged"] else "#1f4e8c"
+    bars = alt.Chart(shown).mark_bar(opacity=.55, color="gray").encode(
+        x=alt.X("value:Q", bin=alt.Bin(maxbins=30, extent=[lo, hi]), title=None),
+        y=alt.Y("count():Q", title="peers"))
+    median = alt.Chart(pd.DataFrame({"x": [row["peer_median"]]})).mark_rule(
+        strokeDash=[4, 3], color="gray").encode(x="x:Q")
+    company = alt.Chart(pd.DataFrame({"x": [row["value"]]})).mark_rule(size=3, color=ink).encode(x="x:Q")
+    layers = bars + median + company
+    if row["name"] == "beneish_m" and lo <= BENEISH_CUTOFF <= hi:
+        layers += alt.Chart(pd.DataFrame({"x": [BENEISH_CUTOFF]})).mark_rule(
+            strokeDash=[1, 2], size=2, color="#9a6700").encode(x="x:Q")
+    return layers.properties(height=170)
+
+
+def render_peers(r: dict):
+    m, b = r["meta"], r["beneish"]
+    st.markdown(f'<div class="case-head">Numbers check · {esc(m["name"])} · FY{m["fiscal_year"]}'
+                f' · peers: {esc(m["peer_group"])}, n={m["peers"]} · frames CY{m["calendar_year"]}'
+                f' · original 10-K {esc(m["accession"])}</div>', unsafe_allow_html=True)
+    flagged = [x for x in r["metrics"] if x["flagged"]]
+    c1, c2, c3 = st.columns([2, 1, 1])
+    c1.markdown(f'<div class="signal">{len(flagged)}</div><div class="signal-label">'
+                f'metrics unusual vs peers (BH q ≤ {m["flag_q"]})</div>', unsafe_allow_html=True)
+    c2.metric("Beneish M-score", "n/a" if b["m"] is None else f"{b['m']:.2f}",
+              delta=None if b["m"] is None else f"{b['m'] - b['cutoff']:+.2f} vs {b['cutoff']} cutoff",
+              delta_color="inverse")
+    c3.metric("Peers", m["peers"])
+
+    st.dataframe(pd.DataFrame([{
+        "metric": x["label"], "company": x["value"], "peer median": x.get("peer_median"),
+        "percentile": x.get("percentile"), "robust z": x.get("robust_z"), "p": x.get("p_value"),
+        "q (BH)": x["q_value"], "flagged": x["flagged"], "peers n": x["peer_n"]} for x in r["metrics"]]),
+        hide_index=True, width="stretch")
+
+    charts = [x for x in r["metrics"] if x["value"] is not None and x.get("peer_median") is not None]
+    for i in range(0, len(charts), 2):
+        cols = st.columns(2)
+        for col, x in zip(cols, charts[i:i + 2]):
+            with col:
+                dist = np.array(x["distribution"])
+                lo, hi = peer_range(dist, x["value"])
+                off = int(np.sum((dist < lo) | (dist > hi)))
+                off_note = f" · {off} peer{'s' if off > 1 else ''} off-scale" if off else ""
+                st.markdown(f"**{x['label']}** · {x['percentile']:.0f}th percentile"
+                            f"{' · flagged' if x['flagged'] else ''}{off_note}")
+                st.altair_chart(peer_chart(x), width="stretch")
+    st.caption("Solid line: this company. Dashed: peer median. Dotted amber: Beneish -1.78 cutoff. "
+               "Company numbers are from its original 10-K; "
+               "peer numbers are SEC frames (latest filed). p is one-sided in the red-flag direction; "
+               f"q is Benjamini-Hochberg across all metrics. Beneish components imputed as 1.0: "
+               f"{', '.join(b['imputed']) or 'none'}.")
+
+
 # ---------------------------------------------------------------------------
 st.title("Pecora.ai")
 st.caption("AI findings you can argue with. Every red flag is prosecuted, defended, and judged, and every citation is checked against the filing.")
 
-mode = st.sidebar.radio("Mode", ["Case files", "Live run"])
+mode = st.sidebar.radio("Mode", ["Case files", "Live run", "Numbers check"])
 
-if mode == "Case files":
+if mode == "Numbers check":
+    files = sorted(glob.glob(os.path.join(QUANT_DIR, "*.json")), key=os.path.getmtime, reverse=True)
+    ticker = st.sidebar.text_input("Ticker", "MDXG", key="q_ticker")
+    year = st.sidebar.number_input("Fiscal year", 2010, 2030, 2016, key="q_year")
+    if st.sidebar.button("Compute vs peers", type="primary"):
+        from pecora.quant.peers import analyze
+        with st.spinner("Pulling XBRL facts and peer frames from EDGAR..."):
+            try:
+                st.session_state["peers"] = analyze(ticker.upper(), int(year))
+            except Exception as e:
+                st.error(f"{type(e).__name__}: {e}")
+    if files:
+        choice = st.sidebar.selectbox("Saved", files, format_func=os.path.basename)
+        if st.sidebar.button("Open saved"):
+            st.session_state["peers"] = load_json(choice)
+    if "peers" in st.session_state:
+        render_peers(st.session_state["peers"])
+    else:
+        st.info("Compute a filing vs its peers, or open a saved result from outputs/quant/.")
+elif mode == "Case files":
     files = sorted(glob.glob(os.path.join(RESULTS_DIR, "*.json")), key=os.path.getmtime, reverse=True)
     if not files:
         st.info(f"No saved results in {RESULTS_DIR}/ yet. Run the CLI or switch to Live run.")
