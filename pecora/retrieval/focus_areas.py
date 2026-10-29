@@ -132,13 +132,3 @@ def get_focus_area(key: str) -> dict:
     if key not in FOCUS_AREAS:
         raise ValueError(f"Unknown focus area: {key}. Valid: {list(FOCUS_AREAS.keys())}")
     return FOCUS_AREAS[key]
-
-
-def get_all_queries(focus_keys: list[str]) -> list[tuple[str, str]]:
-    """Return (focus_key, query) pairs for all selected focus areas."""
-    pairs = []
-    for key in focus_keys:
-        area = get_focus_area(key)
-        for q in area["queries"]:
-            pairs.append((key, q))
-    return pairs

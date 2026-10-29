@@ -62,6 +62,11 @@ def esc(s) -> str:
     return html.escape(str(s or ""))
 
 
+def md(s) -> str:
+    """Model text for st.write/st.caption: escape $ so dollar amounts don't render as LaTeX."""
+    return str(s or "").replace("$", "\\$")
+
+
 def load_json(path: str) -> dict:
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -89,7 +94,7 @@ def render_debate(d: dict, n: int):
 
     title = f"{n}. {f.get('title', 'Untitled')}  ·  {d['verdict']}  ·  {d['final_confidence']}%"
     with st.expander(title, expanded=(n == 1)):
-        st.caption(f"{f.get('severity', '')} · {f.get('section', '')} · focus: {f.get('focus_area', '')}")
+        st.caption(md(f"{f.get('severity', '')} · {f.get('section', '')} · focus: {f.get('focus_area', '')}"))
         if d.get("error"):
             st.error(d["error"])
             return
@@ -120,10 +125,10 @@ def render_debate(d: dict, n: int):
                       delta=(f"{d['final_confidence'] - d['raw_confidence']} citation penalty"
                              if d["final_confidence"] != d["raw_confidence"] else None))
         with c2:
-            st.write(adj.get("reasoning", ""))
+            st.write(md(adj.get("reasoning")))
             st.markdown(cite_line(adj.get("decisive_quote"), adj.get("decisive_passage_id"),
                                   by_agent.get(("adjudicator", 1))), unsafe_allow_html=True)
-            st.caption(f"Would change my mind: {adj.get('what_would_change_my_mind', '')}")
+            st.caption(f"Would change my mind: {md(adj.get('what_would_change_my_mind'))}")
         for flag in d.get("flags", []):
             st.warning(flag)
 
@@ -234,7 +239,6 @@ def render_peers(r: dict):
                f"{', '.join(b['imputed']) or 'none'}.")
 
 
-# ---------------------------------------------------------------------------
 st.title("Pecora.ai")
 st.caption("AI findings you can argue with. Every red flag is prosecuted, defended, and judged, and every citation is checked against the filing.")
 

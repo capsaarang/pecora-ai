@@ -146,6 +146,12 @@ def verify_quote(quote: str, passages: list[str], threshold: float = FUZZY_THRES
 
     Returns {"verified", "status", "score", "method", "passage", "spans", "changes"}.
     """
+    return _verify(quote, [_normalize_with_map(p) for p in passages], threshold, cited)
+
+
+def _verify(quote: str, passages: list[tuple[str, list[int]]], threshold: float = FUZZY_THRESHOLD,
+            cited: int | None = None) -> dict:
+    """verify_quote on passages already normalized, so a debate normalizes each passage once."""
     base = {"verified": False, "score": 0.0, "method": "none", "passage": None,
             "spans": [], "changes": []}
     if not quote or not quote.strip():
@@ -156,7 +162,7 @@ def verify_quote(quote: str, passages: list[str], threshold: float = FUZZY_THRES
     if not fragments:
         return {**base, "status": "too short", "method": "too short"}
 
-    results = [_check_passage(fragments, _normalize_with_map(p)) for p in passages]
+    results = [_check_passage(fragments, p) for p in passages]
     if not results:
         return {**base, "status": "not_found"}
 
@@ -194,11 +200,11 @@ def verify_debate_quotes(auditor: dict, defender: dict, adjudication: dict,
     checked against the passage its passage_id names.
     """
     ids = [p["id"] for p in evidence]
-    texts = [p["text"] for p in evidence]
+    passages = [_normalize_with_map(p["text"]) for p in evidence]
 
     def check(agent: str, index: int, quote: str, passage_id) -> dict:
         cited = ids.index(passage_id) if passage_id in ids else None
-        r = verify_quote(quote, texts, cited=cited)
+        r = _verify(quote, passages, cited=cited)
         found_in = ids[r["passage"]] if r["passage"] is not None else None
         return {"agent": agent, "index": index, "quote": quote, "cited": passage_id,
                 "found_in": found_in, **r}

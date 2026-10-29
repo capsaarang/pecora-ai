@@ -3,7 +3,7 @@ Tests for the screener: focus areas, finding parsing, and follow-up requests.
 """
 
 import pytest
-from pecora.retrieval.focus_areas import FOCUS_AREAS, get_all_queries, get_focus_area
+from pecora.retrieval.focus_areas import FOCUS_AREAS, get_focus_area
 from pecora.screen import Finding, _parse_findings, _extract_followup_request
 
 
@@ -44,13 +44,6 @@ class TestFocusAreas:
     def test_get_focus_area_invalid(self):
         with pytest.raises(ValueError):
             get_focus_area("nonexistent_area")
-
-    def test_get_all_queries_returns_pairs(self):
-        pairs = get_all_queries(["risk_factors", "revenue"])
-        assert all(isinstance(p, tuple) and len(p) == 2 for p in pairs)
-        focus_keys = {p[0] for p in pairs}
-        assert "risk_factors" in focus_keys
-        assert "revenue" in focus_keys
 
 
 # ── Scorer ────────────────────────────────────────────────────────────────────
@@ -96,9 +89,13 @@ class TestFindingParser:
         findings = _parse_findings(wrapped, "revenue")
         assert len(findings) == 2
 
-    def test_returns_empty_on_invalid_json(self):
-        findings = _parse_findings("This is not JSON at all.", "debt")
-        assert findings == []
+    def test_raises_on_invalid_json(self):
+        with pytest.raises(ValueError):
+            _parse_findings("This is not JSON at all.", "debt")
+
+    def test_brackets_around_the_array_are_ignored(self):
+        text = f"Findings for [COMPANY]:\n{self.VALID_JSON}\nFOLLOWUP_REQUEST: segment revenue for [COMPANY]"
+        assert len(_parse_findings(text, "revenue")) == 2
 
     def test_focus_area_set_on_all_findings(self):
         findings = _parse_findings(self.VALID_JSON, "litigation")
@@ -118,6 +115,10 @@ class TestFollowupExtractor:
         text = "Here are the findings in JSON format: [...]"
         result = _extract_followup_request(text)
         assert result is None
+
+    def test_ignores_the_phrase_inside_json(self):
+        text = '[{"detail": "context thin. FOLLOWUP_REQUEST: prior-year filing",'
+        assert _extract_followup_request(text) is None
 
     def test_handles_extra_whitespace(self):
         text = "FOLLOWUP_REQUEST:   litigation settlement amounts in notes"

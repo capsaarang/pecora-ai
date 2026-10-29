@@ -24,6 +24,7 @@ _SUFFIX = re.compile(
     r",?\s+(inc|incorporated|corp|corporation|co|company|ltd|llc|plc|holdings)\.?$",
     re.IGNORECASE,
 )
+_ARTICLE = re.compile(r"^the\s+", re.IGNORECASE)
 
 
 def build_aliases(company_name: str | None = None, ticker: str | None = None,
@@ -34,8 +35,7 @@ def build_aliases(company_name: str | None = None, ticker: str | None = None,
         name = re.sub(r"\s+", " ", company_name).strip()
         aliases.add(name)
         base = _SUFFIX.sub("", name).strip(" ,")
-        if base:
-            aliases.add(base)
+        aliases.update({base, _ARTICLE.sub("", base)} - {""})
     if ticker:
         aliases.add(ticker.upper())
         aliases.update(KNOWN_ALIASES.get(ticker.upper(), []))
@@ -48,8 +48,14 @@ def people_for(ticker: str | None) -> list[str]:
     return KNOWN_PEOPLE.get((ticker or "").upper(), [])
 
 
+def _is_ticker(term: str) -> bool:
+    return term.isupper() and len(term) <= 5 and " " not in term
+
+
 def _mask(text: str, term: str, token: str) -> str:
-    return re.sub(rf"(?<!\w){re.escape(term)}(?!\w)", token, text, flags=re.IGNORECASE)
+    # Tickers match case-sensitively: ALL, CAT or NOW must not erase the words "all", "cat", "now"
+    flags = 0 if _is_ticker(term) else re.IGNORECASE
+    return re.sub(rf"(?<!\w){re.escape(term)}(?!\w)", token, text, flags=flags)
 
 
 def anonymize_text(text: str, aliases: list[str], people: list[str] | None = None,

@@ -26,7 +26,7 @@ from ..ingestion.anonymizer import anonymize_text, build_aliases, people_for
 from ..ingestion.chunker import chunk_sections
 from ..ingestion.loader import load_from_file
 from ..ingestion.sections import detect_sections
-from .llm import ClaudeLLM
+from .llm import make_llm
 from .review import AdversarialReviewer, select_candidates, summarize
 
 DEFAULT_FOCUS = ["revenue", "risk_factors", "litigation", "related_party"]
@@ -38,7 +38,7 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
                     max_findings: int = 5, k_evidence: int = 5, workers: int = 3,
                     output_dir: str = "outputs/adversarial", llm=None) -> dict:
     # Heavy imports here so tests and the Streamlit viewer stay fast
-    from ..retrieval.embedder import Embedder
+    from ..retrieval.embedder import get_embedder
     from ..retrieval.retriever import Retriever
     from ..retrieval.vector_store import VectorStore
 
@@ -47,7 +47,6 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
             "anonymized": anonymize, "years_masked": mask_years,
             "run_at": datetime.now().isoformat(timespec="seconds")}
 
-    # 1. Load
     print("[1/5] Loading filing...")
     company_name = None
     if file_path:
@@ -60,7 +59,7 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
         meta.update({k: doc[k] for k in ("cik", "filing_date", "report_date", "url")})
         meta["source"] = doc["url"]
 
-    # 2. Anonymize BEFORE anything reaches a model
+    # Anonymize BEFORE anything reaches a model
     if anonymize:
         aliases = build_aliases(company_name, ticker, extra_aliases)
         text = anonymize_text(text, aliases, people_for(ticker), mask_years)
@@ -73,19 +72,17 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
     shown_name = "[COMPANY]" if anonymize else meta["ticker"]
     shown_year = "[YEAR]" if mask_years else str(year or "unknown")
 
-    # 3. Index
     print("[3/5] Sectioning, chunking, embedding...")
     sections = detect_sections(text)
     chunks = chunk_sections(sections)
-    embedder = Embedder()
+    embedder = get_embedder()
     store = VectorStore(dim=embedder.dim)
     store.add(chunks, embedder.embed_chunks([c.text for c in chunks]))
     retriever = Retriever(embedder, store)
 
-    # 4. Candidate screen (v1 single-pass auditor). Screener and agents share one LLM,
-    # so llm_calls counts every call in the run.
+    # Screener and agents share one LLM, so llm_calls counts every call in the run
     print("[4/5] Screening for candidate findings...")
-    llm = llm or ClaudeLLM()
+    llm = llm or make_llm()
     screen = Screener(llm).run(ticker=shown_name, fiscal_year=shown_year,
                                retrieved_context=retriever.retrieve(focus_keys=focus_areas),
                                retriever=retriever, total_chunks=len(chunks))
@@ -94,13 +91,15 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
     if screen.failed_areas:
         print(f"      Focus areas that failed: {list(screen.failed_areas)}")
 
-    # 5. Adversarial review
     print(f"[5/5] Running Auditor / Defender / Adjudicator on {len(candidates)} findings...")
     reviewer = AdversarialReviewer(llm, retriever=retriever, k_evidence=k_evidence)
     debates = reviewer.review_all([f.to_dict() for f in candidates], workers=workers)
 
     result = {"meta": {**meta, "model": getattr(llm, "model", "custom"),
-                       "llm_calls": getattr(llm, "calls", None)},
+                       "llm_transport": type(llm).__name__,
+                       "llm_calls": getattr(llm, "calls", None),
+                       "llm_tokens": {"input": getattr(llm, "input_tokens", None),
+                                      "output": getattr(llm, "output_tokens", None)}},
               "summary": summarize(debates),
               "screen": {"findings": [f.to_dict() for f in screen.findings],
                          "debated": [i for i, f in enumerate(screen.findings)
@@ -120,6 +119,9 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
     signal = "n/a" if s["signal_score"] is None else f"{s['signal_score']}/100"
     print(f"\n  Signal score: {signal}   Verdicts: {s['verdicts']}"
           f"   Citation integrity: {s['citation_integrity']}")
+    m = result["meta"]
+    print(f"  LLM: {m['llm_transport']} {m['model']}, {m['llm_calls']} calls, "
+          f"tokens in/out {m['llm_tokens']['input']}/{m['llm_tokens']['output']}")
     print(f"  Saved -> {path}")
     return result
 

@@ -1,9 +1,4 @@
-"""
-10-K Section Detector
-
-Identifies standard SEC 10-K sections in raw document text using
-regex pattern matching against known Item headers.
-"""
+"""Splits a 10-K into its standard Item sections by matching Item headers at line starts."""
 
 import re
 from dataclasses import dataclass
@@ -54,20 +49,11 @@ def build_section_regex() -> re.Pattern:
 
 
 def detect_sections(text: str) -> list[Section]:
-    """
-    Split a 10-K document into labeled sections.
-
-    Args:
-        text: Full document text
-
-    Returns:
-        List of Section objects with name, item number, and text content
-    """
+    """Labeled sections in document order; the whole text as one section if no header is found."""
     regex = build_section_regex()
     matches = list(regex.finditer(text))
 
     if not matches:
-        # Fallback: return whole document as one section
         return [Section(
             name="Full Document",
             item_number="N/A",
@@ -126,11 +112,7 @@ def _lookup_item_name(item_header: str) -> str:
 
 
 def extract_notes(text: str) -> list[dict]:
-    """
-    Extract financial statement notes (Note 1, Note 2, etc.).
-
-    Returns list of {'note_number': str, 'text': str}
-    """
+    """Financial statement notes: [{'note_number', 'title', 'text'}]."""
     pattern = re.compile(
         r"(?im)^NOTE\s*(\d+)[.\s\-–—]+(.{0,80}?)$",
         re.MULTILINE,

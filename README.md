@@ -26,14 +26,14 @@ Then code, not AI, checks every quote against the filing. If the decisive quote 
 ## Pipeline
 
 ```
-SEC EDGAR (original 10-K) → anonymize → sections → chunks → embeddings (FAISS)
+SEC EDGAR (original 10-K) → anonymize → sections → chunks → embeddings (vector search)
         → screen for candidate findings → Auditor → Defender → Adjudicator
         → citation verification → signal score
 ```
 
 1. **Fetch** the original 10-K from EDGAR: the version investors saw before any restatement
 2. **Anonymize** company names, ticker, and executives to control for look-ahead bias
-3. **Index** the filing by section into a FAISS vector store for semantic search
+3. **Index** the filing by section into an in-memory vector store for semantic search
 4. **Screen** for candidate red flags across revenue, risk factors, litigation, and related parties
 5. **Cross-examine** each candidate with the three agents
 6. **Verify and score** every citation and the filing as a whole
@@ -54,15 +54,15 @@ SEC EDGAR (original 10-K) → anonymize → sections → chunks → embeddings (
 
 ## Quickstart
 
-Requires Python 3.10+, an Anthropic API key, and a contact email for SEC EDGAR.
+Requires Python 3.10+, a contact email for SEC EDGAR, and either the Claude Code CLI logged in to a Claude subscription (the default) or an Anthropic API key (`PECORA_LLM=api`).
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env        # add ANTHROPIC_API_KEY and SEC_EMAIL
+cp .env.example .env        # add SEC_EMAIL; see the file for the CLI/API switch
 
-python -m pytest -q         # offline tests, no API calls
+python -m pytest -q         # offline tests, no model calls
 
 python -m pecora.adversarial.run --ticker SMCI --year 2016 --max-findings 2
 python -m pecora.adversarial.backtest --target SMCI:2016 --control NTAP:2016
@@ -71,12 +71,14 @@ streamlit run app.py
 
 Results save to `outputs/adversarial/`. The app's Case files mode replays them offline.
 
+With the CLI, each call runs isolated from your own Claude Code setup (no tools, MCP servers, skills or settings), so a call costs about 1k tokens of overhead instead of the 100k+ a default `claude -p` loads. A filing takes about 20 to 25 calls against your subscription's usage limits.
+
 ## Project structure
 
 ```
 pecora/
   ingestion/     EDGAR fetch, section detection, chunking, anonymization
-  retrieval/     embeddings, FAISS store, focus-area retrieval
+  retrieval/     embeddings, vector store, focus-area retrieval
   screen.py      first-pass candidate finding generator
   adversarial/   agents, prompts, citation verifier, runner, backtest
 app.py           Streamlit demo

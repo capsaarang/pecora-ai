@@ -2,7 +2,7 @@
 Adversarial Review
 
 For each candidate finding from the v1 screen:
-  1. Gather evidence passages from FAISS (the SAME passages go to all agents)
+  1. Gather evidence passages by semantic search (the SAME passages go to all agents)
   2. Auditor argues it is a red flag
   3. Defender argues the company's side
   4. Adjudicator rules, scores confidence, and cites the decisive passage
@@ -15,7 +15,7 @@ Filing-level signal = severity-weighted share of claims that survived review.
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 
-from .llm import parse_json_object
+from .llm import UsageLimitReached, parse_json_object
 from .prompts import (ADJUDICATOR_SYSTEM, AUDITOR_SYSTEM, DEFENDER_SYSTEM,
                       adjudicator_user, auditor_user, defender_user)
 from .verifier import verify_debate_quotes
@@ -89,7 +89,6 @@ class AdversarialReviewer:
         self.k_evidence = k_evidence
         self.max_passage_chars = max_passage_chars
 
-    # -- evidence ----------------------------------------------------------
     def gather_evidence(self, finding: dict) -> list[dict]:
         passages = []
         if self.retriever is not None:
@@ -112,7 +111,6 @@ class AdversarialReviewer:
     def format_evidence(evidence: list[dict]) -> str:
         return "\n\n".join(f"[{p['id']}] ({p['section']})\n{p['text']}" for p in evidence)
 
-    # -- debate ------------------------------------------------------------
     def review(self, finding: dict) -> Debate:
         evidence = self.gather_evidence(finding)
         debate = Debate(finding=finding, evidence=evidence)
@@ -127,6 +125,8 @@ class AdversarialReviewer:
                 self.llm(DEFENDER_SYSTEM, defender_user(finding, block, debate.auditor)))
             debate.adjudication = parse_json_object(self.llm(
                 ADJUDICATOR_SYSTEM, adjudicator_user(finding, block, debate.auditor, debate.defender)))
+        except UsageLimitReached:
+            raise  # every later call would fail too: stop the run
         except Exception as e:  # keep the run alive; record the failure
             debate.error = f"{type(e).__name__}: {e}"
             return debate

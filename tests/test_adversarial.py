@@ -93,6 +93,12 @@ def test_anonymize_masks_names_not_substrings():
     assert "SMCIX" in out  # no partial-word masking
 
 
+def test_ticker_that_is_a_word_masks_only_the_ticker():
+    aliases = build_aliases("The Allstate Corporation", "ALL")
+    out = anonymize_text("The company ALL reported all results. Allstate grew.", aliases)
+    assert out == "The company [COMPANY] reported all results. [COMPANY] grew."
+
+
 def test_mask_years_optional():
     assert "2016" in anonymize_text("fiscal 2016", [], mask_years=False)
     assert "[YEAR]" in anonymize_text("fiscal 2016", [], mask_years=True)
@@ -117,8 +123,7 @@ def test_parse_json_with_fences_and_preamble():
 # ---------------- review orchestration ----------------
 class FakeRetriever:
     def retrieve_by_query(self, query, k=5):
-        c = Chunk(chunk_id="item-7-000", section_name="MD&A", item_number="Item 7",
-                  text=PASSAGE, char_start=0, char_end=len(PASSAGE))
+        c = Chunk(chunk_id="item-7-000", section_name="MD&A", item_number="Item 7", text=PASSAGE)
         return [{"chunk": c, "score": 0.9}, {"chunk": c, "score": 0.8}]  # duplicate on purpose
 
 
