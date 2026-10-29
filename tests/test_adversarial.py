@@ -124,6 +124,18 @@ def test_llm_failure_recorded_not_raised():
     assert d.verdict == "ERROR" and d.error
 
 
+def test_malformed_json_retried_once():
+    good, calls = fake_llm("before all acceptance criteria had been met"), []
+    def flaky(system, user):
+        calls.append(system)
+        if "DEFENDER" in system and calls.count(system) == 1:
+            return '{"argument": "the "Company" says", "rebuttals": []}'  # unescaped quote
+        return good(system, user)
+    d = AdversarialReviewer(flaky, FakeRetriever()).review(FINDING)
+    assert d.verdict == "UPHELD" and not d.error
+    assert len(calls) == 4  # auditor, defender x2, adjudicator
+
+
 def test_signal_score_weighting():
     high = Debate(finding={"severity": "HIGH"}, evidence=[], verdict="UPHELD", final_confidence=80)
     low = Debate(finding={"severity": "LOW"}, evidence=[], verdict="DISMISSED", final_confidence=90)

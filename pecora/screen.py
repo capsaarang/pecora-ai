@@ -228,10 +228,10 @@ Respond in this exact JSON format:
 
         response = self.client.messages.create(
             model=MODEL,
-            max_tokens=800,
+            max_tokens=2000,  # room for thinking blocks before the text
             messages=[{"role": "user", "content": prompt}],
         )
-        raw = response.content[0].text
+        raw = _response_text(response)
 
         try:
             clean = re.sub(r"```json|```", "", raw).strip()
@@ -248,7 +248,7 @@ Respond in this exact JSON format:
             system=system,
             messages=messages,
         )
-        return response.content[0].text
+        return _response_text(response)
 
     def _format_context(self, chunks: list[dict]) -> str:
         """Format chunk list into a readable context block."""
@@ -260,6 +260,11 @@ Respond in this exact JSON format:
                 f"[{chunk.item_number} — {chunk.section_name}] (score: {score:.3f})\n{chunk.text.strip()}"
             )
         return "\n\n---\n\n".join(parts) if parts else "No relevant context retrieved."
+
+
+def _response_text(response) -> str:
+    """Join the text blocks; thinking blocks have no .text and may come first."""
+    return "".join(b.text for b in response.content if getattr(b, "type", "") == "text")
 
 
 def _build_system_prompt(ticker: str, fiscal_year: str) -> str:

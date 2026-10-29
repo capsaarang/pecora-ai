@@ -115,18 +115,26 @@ class AdversarialReviewer:
 
         block = self.format_evidence(evidence)
         try:
-            debate.auditor = parse_json_object(self.llm(AUDITOR_SYSTEM, auditor_user(finding, block)))
-            debate.defender = parse_json_object(
-                self.llm(DEFENDER_SYSTEM, defender_user(finding, block, debate.auditor)))
-            debate.adjudication = parse_json_object(
-                self.llm(ADJUDICATOR_SYSTEM,
-                         adjudicator_user(finding, block, debate.auditor, debate.defender)))
+            debate.auditor = self._ask(AUDITOR_SYSTEM, auditor_user(finding, block))
+            debate.defender = self._ask(DEFENDER_SYSTEM, defender_user(finding, block, debate.auditor))
+            debate.adjudication = self._ask(
+                ADJUDICATOR_SYSTEM, adjudicator_user(finding, block, debate.auditor, debate.defender))
         except Exception as e:  # keep the run alive; record the failure
             debate.error = f"{type(e).__name__}: {e}"
             return debate
 
         self._score(debate)
         return debate
+
+    def _ask(self, system: str, user: str) -> dict:
+        """One agent turn. Malformed JSON gets one retry that names the parse error."""
+        try:
+            return parse_json_object(self.llm(system, user))
+        except ValueError as e:
+            # Usually an unescaped " inside a verbatim filing quote
+            retry = (f"{user}\n\nYour previous reply was not valid JSON ({e}). Respond again with "
+                     'ONE valid JSON object. Escape any double quote inside a string as \\".')
+            return parse_json_object(self.llm(system, retry))
 
     def _score(self, debate: Debate) -> None:
         adj = debate.adjudication
