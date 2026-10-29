@@ -50,12 +50,17 @@ def select_candidates(findings: list, max_findings: int = 5) -> list:
     return sorted(eligible, key=lambda f: order[f.severity.upper()])[:max_findings]
 
 
-def filing_signal(debates: list[Debate]) -> int:
-    """0-100: severity-weighted share of reviewed claims that were UPHELD, scaled by confidence."""
+def filing_signal(debates: list[Debate]) -> int | None:
+    """
+    0-100: severity-weighted share of reviewed claims that were UPHELD, scaled by confidence.
+
+    None when nothing was judged (no candidates, or every debate errored), so a failed
+    run never reads as a clean filing.
+    """
     reviewed = [d for d in debates if d.verdict != "ERROR"]
     total = sum(SEVERITY_WEIGHTS.get(d.finding.get("severity", "").upper(), 1) for d in reviewed)
     if not total:
-        return 0
+        return None
     upheld = sum(SEVERITY_WEIGHTS.get(d.finding.get("severity", "").upper(), 1) * d.final_confidence / 100
                  for d in reviewed if d.verdict == "UPHELD")
     return round(100 * upheld / total)
@@ -69,6 +74,8 @@ def summarize(debates: list[Debate]) -> dict:
     return {
         "signal_score": filing_signal(debates),
         "reviewed": len(debates),
+        "judged": len(debates) - counts["ERROR"],
+        "errors": counts["ERROR"],
         "verdicts": counts,
         "citation_integrity": round(sum(c["verified"] for c in checks) / len(checks), 3) if checks else None,
         "unverified_decisive": sum(1 for d in debates if d.citations and not d.citations.get("decisive_verified")),
@@ -115,26 +122,17 @@ class AdversarialReviewer:
 
         block = self.format_evidence(evidence)
         try:
-            debate.auditor = self._ask(AUDITOR_SYSTEM, auditor_user(finding, block))
-            debate.defender = self._ask(DEFENDER_SYSTEM, defender_user(finding, block, debate.auditor))
-            debate.adjudication = self._ask(
-                ADJUDICATOR_SYSTEM, adjudicator_user(finding, block, debate.auditor, debate.defender))
+            debate.auditor = parse_json_object(self.llm(AUDITOR_SYSTEM, auditor_user(finding, block)))
+            debate.defender = parse_json_object(
+                self.llm(DEFENDER_SYSTEM, defender_user(finding, block, debate.auditor)))
+            debate.adjudication = parse_json_object(self.llm(
+                ADJUDICATOR_SYSTEM, adjudicator_user(finding, block, debate.auditor, debate.defender)))
         except Exception as e:  # keep the run alive; record the failure
             debate.error = f"{type(e).__name__}: {e}"
             return debate
 
         self._score(debate)
         return debate
-
-    def _ask(self, system: str, user: str) -> dict:
-        """One agent turn. Malformed JSON gets one retry that names the parse error."""
-        try:
-            return parse_json_object(self.llm(system, user))
-        except ValueError as e:
-            # Usually an unescaped " inside a verbatim filing quote
-            retry = (f"{user}\n\nYour previous reply was not valid JSON ({e}). Respond again with "
-                     'ONE valid JSON object. Escape any double quote inside a string as \\".')
-            return parse_json_object(self.llm(system, retry))
 
     def _score(self, debate: Debate) -> None:
         adj = debate.adjudication
@@ -154,13 +152,15 @@ class AdversarialReviewer:
         if adj.get("decisive_passage_id") not in ids:
             debate.flags.append("decisive passage id does not exist")
 
-        debate.citations = verify_debate_quotes(
-            debate.auditor, debate.defender, adj, [p["text"] for p in debate.evidence])
+        debate.citations = verify_debate_quotes(debate.auditor, debate.defender, adj, debate.evidence)
 
         final = debate.raw_confidence
         if not debate.citations["decisive_verified"]:
             final = int(final * UNVERIFIED_PENALTY)
-            debate.flags.append("decisive citation not found in filing: confidence halved")
+            reason = {"altered": "decisive citation alters the filing text",
+                      "wrong_passage": "decisive citation is from a different passage than cited"
+                      }.get(debate.citations["decisive_status"], "decisive citation not found in filing")
+            debate.flags.append(f"{reason}: confidence halved")
         if debate.citations["integrity"] < 0.5:
             debate.flags.append("fewer than half of all quotes verified")
         debate.final_confidence = final

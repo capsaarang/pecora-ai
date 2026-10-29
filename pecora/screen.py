@@ -7,17 +7,13 @@ context, the retriever fetches it and the LLM gets another pass.
 """
 
 import json
-import os
 import re
 from dataclasses import dataclass, field, asdict
 
-import anthropic
-
+from .adversarial.llm import ClaudeLLM
 from .retrieval.focus_areas import FOCUS_AREAS
 
 
-MODEL = os.environ.get("PECORA_MODEL", "claude-sonnet-5")
-MAX_TOKENS = 4096
 MAX_FOLLOWUP_ROUNDS = 2  # agentic follow-up iterations
 
 
@@ -40,14 +36,13 @@ class Finding:
 class AuditResult:
     ticker: str
     fiscal_year: str
-    risk_score: int
     sections_reviewed: int
     total_chunks_analyzed: int
-    summary: str
     findings: list[Finding] = field(default_factory=list)
     audit_date: str = ""
-    model_used: str = MODEL
+    model_used: str = ""
     focus_areas_run: list[str] = field(default_factory=list)
+    failed_areas: dict[str, str] = field(default_factory=dict)  # focus key -> error
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -62,10 +57,10 @@ class Screener:
       1. Builds a detailed prompt with retrieved context
       2. Calls Claude to generate structured findings (JSON)
       3. Optionally runs follow-up retrieval if Claude flags gaps (agentic loop)
-      4. Aggregates all findings and computes an overall risk score
+      4. Aggregates all findings; a failed area is recorded, not silently empty
 
     Usage:
-        screener = Screener()
+        screener = Screener(llm)  # share the review's ClaudeLLM so llm_calls counts both
         result = screener.run(
             ticker='AAPL',
             fiscal_year='2023',
@@ -74,11 +69,8 @@ class Screener:
         )
     """
 
-    def __init__(self, api_key: str | None = None):
-        key = api_key or os.environ.get("ANTHROPIC_API_KEY")
-        if not key:
-            raise ValueError("ANTHROPIC_API_KEY not set. Export it or pass api_key=.")
-        self.client = anthropic.Anthropic(api_key=key)
+    def __init__(self, llm: ClaudeLLM | None = None):
+        self.llm = llm or ClaudeLLM()
 
     def run(
         self,
@@ -99,10 +91,11 @@ class Screener:
             total_chunks: Total chunks indexed (for metadata)
 
         Returns:
-            AuditResult with all findings and risk score
+            AuditResult with all findings and any focus areas that failed
         """
         from datetime import date
         all_findings: list[Finding] = []
+        failed: dict[str, str] = {}
         focus_keys = list(retrieved_context.keys())
 
         for i, key in enumerate(focus_keys):
@@ -110,37 +103,32 @@ class Screener:
             chunks = retrieved_context[key]
             print(f"\n[Screener] Focus area {i+1}/{len(focus_keys)}: {area['label']} ({len(chunks)} chunks)")
 
-            findings = self._analyze_focus_area(
-                ticker=ticker,
-                fiscal_year=fiscal_year,
-                focus_key=key,
-                area=area,
-                chunks=chunks,
-                retriever=retriever,
-            )
+            try:
+                findings = self._analyze_focus_area(
+                    ticker=ticker,
+                    fiscal_year=fiscal_year,
+                    focus_key=key,
+                    area=area,
+                    chunks=chunks,
+                    retriever=retriever,
+                )
+            except Exception as e:  # one bad area should not sink the run, but must be visible
+                failed[key] = f"{type(e).__name__}: {e}"
+                print(f"  → FAILED: {failed[key]}")
+                continue
             all_findings.extend(findings)
             print(f"  → {len(findings)} findings generated")
-
-        # Overall summary + risk score
-        print("\n[Screener] Generating executive summary and risk score...")
-        summary, risk_score = self._generate_summary(
-            ticker=ticker,
-            fiscal_year=fiscal_year,
-            findings=all_findings,
-            focus_keys=focus_keys,
-        )
 
         return AuditResult(
             ticker=ticker.upper(),
             fiscal_year=fiscal_year,
-            risk_score=risk_score,
             sections_reviewed=len(focus_keys),
             total_chunks_analyzed=total_chunks,
-            summary=summary,
             findings=all_findings,
             audit_date=str(date.today()),
-            model_used=MODEL,
+            model_used=getattr(self.llm, "model", "custom"),
             focus_areas_run=focus_keys,
+            failed_areas=failed,
         )
 
     def _analyze_focus_area(
@@ -168,7 +156,7 @@ class Screener:
         messages.append({"role": "user", "content": user_prompt})
 
         # First pass
-        response_text = self._call_claude(system_prompt, messages)
+        response_text = self.llm.chat(system_prompt, messages)
         messages.append({"role": "assistant", "content": response_text})
 
         # Agentic follow-up: if LLM requests more context
@@ -187,68 +175,10 @@ class Screener:
                     "Please now provide your final structured findings JSON."
                 )
                 messages.append({"role": "user", "content": followup_msg})
-                response_text = self._call_claude(system_prompt, messages)
+                response_text = self.llm.chat(system_prompt, messages)
                 messages.append({"role": "assistant", "content": response_text})
 
         return _parse_findings(response_text, focus_key)
-
-    def _generate_summary(
-        self,
-        ticker: str,
-        fiscal_year: str,
-        findings: list[Finding],
-        focus_keys: list[str],
-    ) -> tuple[str, int]:
-        """Generate executive summary and overall risk score from all findings."""
-
-        findings_text = "\n".join([
-            f"[{f.severity}] {f.title} ({f.section}): {f.detail[:120]}..."
-            for f in findings
-        ])
-
-        prompt = f"""You are a senior financial auditor. You have completed an audit of {ticker}'s {fiscal_year} 10-K filing.
-
-Here are all findings across {len(focus_keys)} focus areas:
-
-{findings_text}
-
-Provide:
-1. A 3-4 sentence executive summary of the audit. Be specific about the most material risks.
-2. An overall risk score from 0-100, where:
-   - 0-25: Low risk, clean filing
-   - 26-50: Moderate risk, some concerns
-   - 51-75: Elevated risk, material issues present
-   - 76-100: High risk, significant red flags
-
-Respond in this exact JSON format:
-{{
-  "summary": "...",
-  "risk_score": 62
-}}"""
-
-        response = self.client.messages.create(
-            model=MODEL,
-            max_tokens=2000,  # room for thinking blocks before the text
-            messages=[{"role": "user", "content": prompt}],
-        )
-        raw = _response_text(response)
-
-        try:
-            clean = re.sub(r"```json|```", "", raw).strip()
-            data = json.loads(clean)
-            return data.get("summary", "Audit complete."), int(data.get("risk_score", 50))
-        except Exception:
-            return raw[:500], 50
-
-    def _call_claude(self, system: str, messages: list[dict]) -> str:
-        """Make an API call to Claude and return the text response."""
-        response = self.client.messages.create(
-            model=MODEL,
-            max_tokens=MAX_TOKENS,
-            system=system,
-            messages=messages,
-        )
-        return _response_text(response)
 
     def _format_context(self, chunks: list[dict]) -> str:
         """Format chunk list into a readable context block."""
@@ -260,11 +190,6 @@ Respond in this exact JSON format:
                 f"[{chunk.item_number} — {chunk.section_name}] (score: {score:.3f})\n{chunk.text.strip()}"
             )
         return "\n\n---\n\n".join(parts) if parts else "No relevant context retrieved."
-
-
-def _response_text(response) -> str:
-    """Join the text blocks; thinking blocks have no .text and may come first."""
-    return "".join(b.text for b in response.content if getattr(b, "type", "") == "text")
 
 
 def _build_system_prompt(ticker: str, fiscal_year: str) -> str:

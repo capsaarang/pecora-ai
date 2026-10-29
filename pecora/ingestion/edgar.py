@@ -84,16 +84,62 @@ def select_filing(filings: list[dict], fiscal_year: int) -> dict | None:
     return sorted(matches, key=lambda f: f["filing_date"])[0]  # earliest = original
 
 
+_BLOCK_TAGS = ["p", "div", "li", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6",
+               "section", "article", "blockquote", "center", "pre", "hr", "dl", "dt", "dd"]
+
+
+def _cell_text(cell) -> str:
+    # No separator: block tags inside the cell already carry newline markers
+    return re.sub(r"\s+", " ", cell.get_text()).strip()
+
+
+def _table_text(table) -> str:
+    """One line per row, cells joined by ' | ', with $, ) and % glued back onto their numbers."""
+    lines = []
+    for tr in table.find_all("tr"):
+        cells = []
+        for c in (_cell_text(td) for td in tr.find_all(["td", "th"])):
+            if not c:
+                continue
+            if cells and (cells[-1] in ("$", "(", "($") or c in (")", "%", ")%", "%)")):
+                cells[-1] += c  # filings split "$ | 12,746" and "(1,234 | )" into separate cells
+            else:
+                cells.append(c)
+        if cells:
+            lines.append(" | ".join(cells))
+    return "\n".join(lines)
+
+
 def html_to_text(html: str) -> str:
+    """
+    Block-aware HTML to text.
+
+    Inline tags (span, font, a, b) are joined with no separator: EDGAR filings often
+    split one word across tags ("It<span>em 1A</span>"), and a newline there breaks
+    section detection. Line breaks go only at block tags, and each table row becomes
+    one line so numbers stay next to their labels.
+    """
     soup = BeautifulSoup(html, "lxml")
     for tag in soup(["script", "style"]):
         tag.decompose()
     for tag in soup.find_all(style=re.compile(r"display:\s*none", re.I)):
         tag.decompose()
-    text = soup.get_text(separator="\n")
+    # Source-code line wrapping is not a real line break
+    for s in soup.find_all(string=True):
+        if "\n" in s or "\r" in s:
+            s.replace_with(re.sub(r"[\r\n]+", " ", s))
+    for br in soup.find_all("br"):
+        br.replace_with("\n")
+    for tag in soup.find_all(_BLOCK_TAGS):
+        tag.insert_before("\n")
+        tag.insert_after("\n")
+    for table in reversed(soup.find_all("table")):  # innermost first
+        table.replace_with(f"\n\n{_table_text(table)}\n\n")
+    text = soup.get_text()
     text = text.replace("\xa0", " ")
     text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n\s*\n+", "\n\n", text)
+    text = re.sub(r" *\n *", "\n", text)
+    text = re.sub(r"\n{2,}", "\n\n", text)
     return text.strip()
 
 

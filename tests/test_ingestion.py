@@ -109,3 +109,48 @@ class TestChunker:
         # Smaller chunks → more of them
         chunks_large = chunk_sections(sections, chunk_size=1200, overlap=100)
         assert len(chunks) >= len(chunks_large)
+
+    def test_chunk_ids_unique_when_item_headers_repeat(self):
+        # A table of contents repeats every Item header; ids must still be unique
+        doc = ("Item 7. MD&A\n\nSee below.\n\n" + "Item 7. Management's Discussion\n\n"
+               + "Revenue grew because demand for servers rose sharply. " * 10)
+        chunks = chunk_sections(detect_sections(doc))
+        ids = [c.chunk_id for c in chunks]
+        assert len(ids) == len(set(ids))
+
+
+class TestSectionsFrontMatter:
+    def test_text_before_first_header_is_kept(self):
+        body = "Our results this year reflected strong demand. " * 20
+        sections = detect_sections(body + "\nItem 15. Exhibits\n\nList of exhibits.")
+        assert sections[0].item_number == "Front"
+        assert "strong demand" in sections[0].text
+
+    def test_short_cover_page_is_dropped(self):
+        sections = detect_sections("FORM 10-K\n\nItem 1. Business\n\nWe sell servers.")
+        assert sections[0].item_number != "Front"
+
+
+class TestHtmlToText:
+    def test_word_split_across_inline_tags_is_rejoined(self):
+        from pecora.ingestion.edgar import html_to_text
+        html = '<p><font>It</font><font>em&#160;1A.</font></p><p>Risk Factors</p>'
+        text = html_to_text(html)
+        assert "Item 1A." in text
+        assert detect_sections(text)[0].item_number.startswith("Item")
+
+    def test_word_split_inside_table_cell_is_rejoined(self):
+        from pecora.ingestion.edgar import html_to_text
+        html = ('<table><tr><td><p><font>It</font><font>em&#160;1A.</font></p></td>'
+                '<td><p>Risk Factors</p></td></tr></table>')
+        assert "Item 1A. | Risk Factors" in html_to_text(html)
+
+    def test_table_row_keeps_numbers_with_labels(self):
+        from pecora.ingestion.edgar import html_to_text
+        html = ("<table><tr><td>Net revenue</td><td>$</td><td>12,746</td><td>(</td>"
+                "<td>1,234</td><td>)</td><td>5</td><td>%</td></tr></table>")
+        assert html_to_text(html) == "Net revenue | $12,746 | (1,234) | 5%"
+
+    def test_source_line_wrapping_is_not_a_line_break(self):
+        from pecora.ingestion.edgar import html_to_text
+        assert html_to_text("<p>revenue was\nrecognized</p>") == "revenue was recognized"

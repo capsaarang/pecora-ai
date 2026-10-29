@@ -82,34 +82,43 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
     store.add(chunks, embedder.embed_chunks([c.text for c in chunks]))
     retriever = Retriever(embedder, store)
 
-    # 4. Candidate screen (v1 single-pass auditor)
+    # 4. Candidate screen (v1 single-pass auditor). Screener and agents share one LLM,
+    # so llm_calls counts every call in the run.
     print("[4/5] Screening for candidate findings...")
-    screen = Screener().run(ticker=shown_name, fiscal_year=shown_year,
-                           retrieved_context=retriever.retrieve(focus_keys=focus_areas),
-                           retriever=retriever, total_chunks=len(chunks))
+    llm = llm or ClaudeLLM()
+    screen = Screener(llm).run(ticker=shown_name, fiscal_year=shown_year,
+                               retrieved_context=retriever.retrieve(focus_keys=focus_areas),
+                               retriever=retriever, total_chunks=len(chunks))
     candidates = select_candidates(screen.findings, max_findings)
     print(f"      {len(screen.findings)} findings, {len(candidates)} sent to adversarial review")
+    if screen.failed_areas:
+        print(f"      Focus areas that failed: {list(screen.failed_areas)}")
 
     # 5. Adversarial review
     print(f"[5/5] Running Auditor / Defender / Adjudicator on {len(candidates)} findings...")
-    llm = llm or ClaudeLLM()
     reviewer = AdversarialReviewer(llm, retriever=retriever, k_evidence=k_evidence)
     debates = reviewer.review_all([f.to_dict() for f in candidates], workers=workers)
 
     result = {"meta": {**meta, "model": getattr(llm, "model", "custom"),
                        "llm_calls": getattr(llm, "calls", None)},
               "summary": summarize(debates),
+              "screen": {"findings": [f.to_dict() for f in screen.findings],
+                         "debated": [i for i, f in enumerate(screen.findings)
+                                     if any(f is c for c in candidates)],
+                         "failed_areas": screen.failed_areas},
               "debates": [d.to_dict() for d in debates]}
 
     os.makedirs(output_dir, exist_ok=True)
     fy = f"FY{year}" if year else "local"
-    path = os.path.join(output_dir, f"{meta['ticker']}_{fy}{'_anon' if anonymize else ''}.json")
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    path = os.path.join(output_dir, f"{meta['ticker']}_{fy}{'_anon' if anonymize else ''}_{stamp}.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2)
     result["path"] = path
 
     s = result["summary"]
-    print(f"\n  Signal score: {s['signal_score']}/100   Verdicts: {s['verdicts']}"
+    signal = "n/a" if s["signal_score"] is None else f"{s['signal_score']}/100"
+    print(f"\n  Signal score: {signal}   Verdicts: {s['verdicts']}"
           f"   Citation integrity: {s['citation_integrity']}")
     print(f"  Saved -> {path}")
     return result

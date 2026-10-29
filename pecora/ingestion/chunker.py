@@ -42,13 +42,14 @@ def chunk_sections(
     """
     all_chunks = []
 
-    for section in sections:
+    for section_idx, section in enumerate(sections):
         section_chunks = _chunk_text(
             text=section.text,
             section_name=section.name,
             item_number=section.item_number,
             chunk_size=chunk_size,
             overlap=overlap,
+            section_idx=section_idx,
         )
         all_chunks.extend(section_chunks)
 
@@ -61,8 +62,11 @@ def _chunk_text(
     item_number: str,
     chunk_size: int,
     overlap: int,
+    section_idx: int = 0,
 ) -> list[Chunk]:
     """Split a single section's text into overlapping chunks."""
+    # The section index keeps ids unique: a 10-K's table of contents repeats each Item header
+    id_prefix = f"{_slugify(item_number)}-s{section_idx:02d}"
     # Split into paragraphs first (respects natural boundaries)
     paragraphs = _split_paragraphs(text)
 
@@ -79,7 +83,7 @@ def _chunk_text(
         if current_len + para_len > chunk_size and current_chars:
             chunk_text = "\n\n".join(current_chars).strip()
             if len(chunk_text) > 50:  # skip trivially short chunks
-                chunk_id = f"{_slugify(item_number)}-{chunk_idx:03d}"
+                chunk_id = f"{id_prefix}-{chunk_idx:03d}"
                 chunks.append(Chunk(
                     chunk_id=chunk_id,
                     section_name=section_name,
@@ -111,7 +115,7 @@ def _chunk_text(
     if current_chars:
         chunk_text = "\n\n".join(current_chars).strip()
         if len(chunk_text) > 50:
-            chunk_id = f"{_slugify(item_number)}-{chunk_idx:03d}"
+            chunk_id = f"{id_prefix}-{chunk_idx:03d}"
             chunks.append(Chunk(
                 chunk_id=chunk_id,
                 section_name=section_name,

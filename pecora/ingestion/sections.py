@@ -77,6 +77,18 @@ def detect_sections(text: str) -> list[Section]:
         )]
 
     sections = []
+    # Keep text before the first header: filings with nonstandard layouts (e.g. GE) put
+    # most of the report there and list the Item headers only in a closing index
+    front = text[:matches[0].start()].strip()
+    if len(front) > 200:
+        sections.append(Section(
+            name="Front Matter",
+            item_number="Front",
+            start_char=0,
+            end_char=matches[0].start(),
+            text=front,
+        ))
+
     for i, match in enumerate(matches):
         start = match.start()
         end = matches[i + 1].start() if i + 1 < len(matches) else len(text)

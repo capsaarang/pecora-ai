@@ -13,12 +13,18 @@ import time
 import anthropic
 
 DEFAULT_MODEL = os.environ.get("PECORA_MODEL", "claude-sonnet-5")
+# Thinking blocks share this budget with the visible reply, so leave plenty of room
+DEFAULT_MAX_TOKENS = 8000
 _RETRYABLE = {429, 500, 502, 503, 529}
+
+
+class TruncatedResponse(RuntimeError):
+    """The reply hit max_tokens. Its JSON is incomplete, so retrying the same call won't help."""
 
 
 class ClaudeLLM:
     def __init__(self, api_key: str | None = None, model: str | None = None,
-                 max_tokens: int = 2000):
+                 max_tokens: int = DEFAULT_MAX_TOKENS):
         key = api_key or os.environ.get("ANTHROPIC_API_KEY")
         if not key:
             raise ValueError("ANTHROPIC_API_KEY not set. Export it or add it to .env.")
@@ -28,15 +34,21 @@ class ClaudeLLM:
         self.calls = 0
 
     def __call__(self, system: str, user: str) -> str:
+        return self.chat(system, [{"role": "user", "content": user}])
+
+    def chat(self, system: str, messages: list[dict]) -> str:
+        """Multi-turn call. Retries rate limits and server errors; raises if the reply was cut off."""
         for attempt in range(3):
             try:
                 resp = self.client.messages.create(
                     model=self.model,
                     max_tokens=self.max_tokens,
                     system=system,
-                    messages=[{"role": "user", "content": user}],
+                    messages=messages,
                 )
                 self.calls += 1
+                if resp.stop_reason == "max_tokens":
+                    raise TruncatedResponse(f"reply cut off at max_tokens={self.max_tokens}")
                 return "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
             except anthropic.APIStatusError as e:
                 if e.status_code not in _RETRYABLE or attempt == 2:

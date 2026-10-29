@@ -31,6 +31,47 @@ def test_fabricated_quote_rejected():
     assert not r["verified"]
 
 
+def test_changed_number_is_altered():
+    passage = "Net revenue was $12,746,000 for fiscal 2016, compared to $11,200,000 in fiscal 2015."
+    r = verify_quote("Net revenue was $92,746,000 for fiscal 2016, compared to $11,200,000 in fiscal 2015", [passage])
+    assert not r["verified"] and r["status"] == "altered"
+    assert any("92,746,000" in c and "12,746,000" in c for c in r["changes"])
+
+
+def test_dropped_negation_is_altered():
+    passage = ("We do not believe that the outcome of these matters will have a material adverse "
+               "effect on our financial position or results of operations.")
+    r = verify_quote("We do believe that the outcome of these matters will have a material adverse "
+                     "effect on our financial position or results of operations", [passage])
+    assert not r["verified"] and r["status"] == "altered"
+
+
+def test_flipped_direction_is_altered():
+    passage = "Gross margin decreased to 14.1% in fiscal 2016 primarily due to higher component costs."
+    r = verify_quote("Gross margin increased to 14.1% in fiscal 2016 primarily due to higher component costs", [passage])
+    assert not r["verified"] and r["status"] == "altered"
+
+
+def test_harmless_fuzzy_difference_still_verified():
+    passage = "Revenue is recognized when title and risk of loss pass to the customer, net of returns."
+    r = verify_quote("Revenue is recognised when title and risk of loss pass to the customer, net of returns", [passage])
+    assert r["verified"] and r["status"] == "near"
+
+
+def test_quote_from_other_passage_is_wrong_passage():
+    other = "Our largest distributor accounted for 24% of total revenue in fiscal 2016."
+    r = verify_quote("Our largest distributor accounted for 24% of total revenue", [PASSAGE, other], cited=0)
+    assert not r["verified"] and r["status"] == "wrong_passage" and r["passage"] == 1
+
+
+def test_spans_point_into_original_passage():
+    passage = "Intro.  \u201cProducts shipped near\nquarter end\u201d were recorded early."
+    r = verify_quote('"Products shipped near quarter end"', [passage])
+    s, e = r["spans"][0]
+    assert r["status"] == "exact"
+    assert passage[s:e].replace("\n", " ") == "Products shipped near quarter end"
+
+
 def test_ellipsis_fragments_all_required():
     ok = verify_quote("We recognize revenue ... before all acceptance criteria had been met", [PASSAGE])
     bad = verify_quote("We recognize revenue ... after the auditors resigned in protest", [PASSAGE])
@@ -124,27 +165,57 @@ def test_llm_failure_recorded_not_raised():
     assert d.verdict == "ERROR" and d.error
 
 
-def test_malformed_json_retried_once():
-    good, calls = fake_llm("before all acceptance criteria had been met"), []
-    def flaky(system, user):
-        calls.append(system)
-        if "DEFENDER" in system and calls.count(system) == 1:
-            return '{"argument": "the "Company" says", "rebuttals": []}'  # unescaped quote
-        return good(system, user)
-    d = AdversarialReviewer(flaky, FakeRetriever()).review(FINDING)
-    assert d.verdict == "UPHELD" and not d.error
-    assert len(calls) == 4  # auditor, defender x2, adjudicator
-
-
 def test_signal_score_weighting():
     high = Debate(finding={"severity": "HIGH"}, evidence=[], verdict="UPHELD", final_confidence=80)
     low = Debate(finding={"severity": "LOW"}, evidence=[], verdict="DISMISSED", final_confidence=90)
     err = Debate(finding={"severity": "HIGH"}, evidence=[], verdict="ERROR")
     assert filing_signal([high, low, err]) == round(100 * (3 * 0.8) / 4)
-    assert filing_signal([]) == 0
+    assert filing_signal([]) is None
+    assert filing_signal([err]) is None  # all errored: no score, not a clean 0
 
 
 def test_select_candidates_skips_info_and_orders():
     mk = lambda sev: Finding("i", sev, "s", "t", "d", "f", "r", "revenue")
     picked = select_candidates([mk("LOW"), mk("INFO"), mk("HIGH"), mk("MEDIUM")], 3)
     assert [f.severity for f in picked] == ["HIGH", "MEDIUM", "LOW"]
+
+
+# ---------------- truncation and screener failures ----------------
+def _fake_claude(stop_reason, text):
+    from types import SimpleNamespace
+    from pecora.adversarial.llm import ClaudeLLM
+    llm = ClaudeLLM.__new__(ClaudeLLM)  # skip the API-key check
+    llm.model, llm.max_tokens, llm.calls = "test", 100, 0
+    resp = SimpleNamespace(stop_reason=stop_reason, content=[SimpleNamespace(type="text", text=text)])
+    llm.client = SimpleNamespace(messages=SimpleNamespace(create=lambda **kw: resp))
+    return llm
+
+
+def test_truncated_reply_raises_instead_of_returning_broken_json():
+    import pytest
+    from pecora.adversarial.llm import TruncatedResponse
+    with pytest.raises(TruncatedResponse):
+        _fake_claude("max_tokens", '{"argument": "cut off')("system", "user")
+
+
+def test_complete_reply_returned_and_counted():
+    llm = _fake_claude("end_turn", '{"ok": true}')
+    assert llm("system", "user") == '{"ok": true}' and llm.calls == 1
+
+
+def test_truncation_becomes_debate_error_not_crash():
+    d = AdversarialReviewer(_fake_claude("max_tokens", "{"), FakeRetriever()).review(FINDING)
+    assert d.verdict == "ERROR" and "TruncatedResponse" in d.error
+
+
+def test_screener_records_failed_area():
+    from pecora.screen import Screener
+
+    class Broken:
+        model = "test"
+
+        def chat(self, system, messages):
+            raise RuntimeError("boom")
+
+    result = Screener(Broken()).run("[COMPANY]", "2016", {"revenue": []})
+    assert result.findings == [] and "revenue" in result.failed_areas
