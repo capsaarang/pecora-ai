@@ -51,8 +51,9 @@ class AuditResult:
 class Screener:
     """Runs every focus area; a failed area is recorded in failed_areas, never silently empty."""
 
-    def __init__(self, llm=None):
+    def __init__(self, llm=None, log=print):
         self.llm = llm or make_llm()
+        self.log = log
 
     def run(self, ticker: str, fiscal_year: str, retrieved_context: dict[str, list[dict]],
             retriever=None, total_chunks: int = 0) -> AuditResult:
@@ -61,17 +62,17 @@ class Screener:
         keys = list(retrieved_context)
         for i, key in enumerate(keys, 1):
             area, chunks = FOCUS_AREAS[key], retrieved_context[key]
-            print(f"\n[Screener] Focus area {i}/{len(keys)}: {area['label']} ({len(chunks)} chunks)")
+            self.log(f"\n[Screener] Focus area {i}/{len(keys)}: {area['label']} ({len(chunks)} chunks)")
             try:
                 found = self._analyze_focus_area(ticker, fiscal_year, key, area, chunks, retriever)
             except UsageLimitReached:
                 raise
             except Exception as e:  # one bad area should not sink the run, but must be visible
                 failed[key] = f"{type(e).__name__}: {e}"
-                print(f"  → FAILED: {failed[key]}")
+                self.log(f"  → FAILED: {failed[key]}")
                 continue
             findings.extend(found)
-            print(f"  → {len(found)} findings generated")
+            self.log(f"  → {len(found)} findings generated")
 
         return AuditResult(ticker=ticker.upper(), fiscal_year=fiscal_year, sections_reviewed=len(keys),
                            total_chunks_analyzed=total_chunks, findings=findings,
@@ -89,7 +90,7 @@ class Screener:
             query = _extract_followup_request(reply)
             if not query:
                 break
-            print(f"    [Agentic] Follow-up round {round_num}: '{query}'")
+            self.log(f"    [Agentic] Follow-up round {round_num}: '{query}'")
             extra = _format_context(retriever.retrieve_by_query(query, k=4))
             messages += [{"role": "assistant", "content": reply},
                          {"role": "user", "content": f"Here is additional context you requested:\n\n{extra}\n\n"

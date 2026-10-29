@@ -100,7 +100,8 @@ class AdversarialReviewer:
                     continue
                 seen.add(chunk.chunk_id)
                 passages.append({"section": f"{chunk.item_number} - {chunk.section_name}",
-                                 "text": chunk.text.strip()[: self.max_passage_chars]})
+                                 "text": chunk.text.strip()[: self.max_passage_chars],
+                                 "chunk_id": chunk.chunk_id, "start": chunk.start, "end": chunk.end})
         if not passages and finding.get("flagged_text"):
             passages.append({"section": finding.get("section", ""), "text": finding["flagged_text"]})
         for i, p in enumerate(passages):
@@ -165,6 +166,13 @@ class AdversarialReviewer:
             debate.flags.append("fewer than half of all quotes verified")
         debate.final_confidence = final
 
-    def review_all(self, findings: list[dict], workers: int = 3) -> list[Debate]:
+    def review_all(self, findings: list[dict], workers: int = 3, on_done=None) -> list[Debate]:
+        """Debates in input order; on_done(debate) is called as each one finishes."""
+        def run(finding: dict) -> Debate:
+            debate = self.review(finding)
+            if on_done:
+                on_done(debate)
+            return debate
+
         with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
-            return list(pool.map(self.review, findings))
+            return list(pool.map(run, findings))

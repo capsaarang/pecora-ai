@@ -54,6 +54,9 @@ h1, h2, h3 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; le
 .UPHELD { color: #b3261e; } .DISMISSED { color: #2e7d32; } .INCONCLUSIVE { color: #9a6700; }
 .ERROR { color: gray; }
 .ok { color: #2e7d32; } .bad { color: #b3261e; }
+.filing { font-family: 'Source Serif 4', Georgia, serif; white-space: pre-wrap; font-size: .9rem;
+          max-height: 22rem; overflow-y: auto; padding: .6rem .8rem; background: rgba(128,128,128,.08); }
+.filing mark { background: #f6d860; color: #1a1a1a; padding: 0 .1rem; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -87,7 +90,7 @@ def cite_line(quote: str, pid: str, check: dict | None) -> str:
     return f'<div class="cite">[{esc(pid)}] “{esc(quote)}” &nbsp; {mark}</div>'
 
 
-def render_debate(d: dict, n: int):
+def render_debate(d: dict, n: int, filing: dict | None = None):
     f, adj = d["finding"], d.get("adjudication", {})
     checks = d.get("citations", {}).get("checks", [])
     by_agent = {(c["agent"], c["index"]): c for c in checks}
@@ -136,6 +139,32 @@ def render_debate(d: dict, n: int):
             for p in d.get("evidence", []):
                 st.markdown(f"**{p['id']}** · {p['section']}")
                 st.text(p["text"])
+        located = [c for c in checks if c.get("filing_spans")]
+        if filing and located:
+            with st.popover("Show in filing"):
+                c = st.selectbox("Quote", located, key=f"cite-{n}",
+                                 format_func=lambda c: f"{c['agent']} {c['index']} · {c['status']} · {c['quote'][:60]}")
+                st.caption(section_of(filing, c["filing_spans"][0][0]))
+                st.markdown(f'<div class="filing">{filing_excerpt(filing["text"], c["filing_spans"])}</div>',
+                            unsafe_allow_html=True)
+
+
+def section_of(filing: dict, offset: int) -> str:
+    for s in filing.get("sections", []):
+        if s["start"] <= offset < s["end"]:
+            return f"{s['item_number']} · {s['name']}"
+    return ""
+
+
+def filing_excerpt(text: str, spans: list, pad: int = 600) -> str:
+    """The filing around the quote, each span wrapped in <mark>, HTML-escaped."""
+    lo, hi = max(0, spans[0][0] - pad), min(len(text), spans[-1][1] + pad)
+    out, pos = ["…" if lo else ""], lo
+    for a, b in spans:
+        out += [esc(text[pos:a]), f"<mark>{esc(text[a:b])}</mark>"]
+        pos = b
+    out += [esc(text[pos:hi]), "…" if hi < len(text) else ""]
+    return "".join(out)
 
 
 def render_result(r: dict):
@@ -153,7 +182,7 @@ def render_result(r: dict):
     c4.metric("Citations verified", f"{ci * 100:.0f}%" if ci is not None else "n/a")
     st.divider()
     for i, d in enumerate(r["debates"], 1):
-        render_debate(d, i)
+        render_debate(d, i, r.get("filing"))
 
 
 def render_backtest(b: dict):

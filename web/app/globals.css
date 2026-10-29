@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* Case-file look: paper, serif body, mono labels, red ink for the Auditor, blue for the Defender */
+@theme {
+  --color-paper: #f6f2e9;
+  --color-card: #fffdf8;
+  --color-ink: #1f1c16;
+  --color-muted: #6c665a;
+  --color-rule: #ddd5c4;
+  --color-auditor: #a3271f;
+  --color-defender: #1f4e8c;
+  --color-upheld: #a3271f;
+  --color-dismissed: #2f6a33;
+  --color-inconclusive: #8a5800;
+  --color-mark: #f4d35e;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.case-head {
+  border-top: 3px double currentColor;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.stamp {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  border: 2px solid currentColor;
+  padding: 0.2rem 0.65rem;
+  transform: rotate(-2deg);
+}
+
+mark {
+  background: var(--color-mark);
+  color: var(--color-ink);
+  padding: 0 0.1rem;
+  border-radius: 2px;
+}

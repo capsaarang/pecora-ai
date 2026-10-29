@@ -224,3 +224,28 @@ def test_screener_records_failed_area():
 
     result = Screener(Broken()).run("[COMPANY]", "2016", {"revenue": []})
     assert result.findings == [] and "revenue" in result.failed_areas
+
+
+# ---------------- anonymize (names, people, products, leak report) ----------------
+FILING_TEXT = (
+    "MiMedx sells EpiFix® and AmnioFix® through distributors. See www.mimedx.com for details. "
+    "Mr. Petit. On February 1, MiMedx expanded AmnioFix. Mr. Parker H. Petit is Chairman. "
+    "We use the Black-Scholes model. General and administrative expense rose; general overhead fell. "
+    "SolidFire grew. SolidFire shipped. SolidFire again.\n"
+    "/s/\nMichael J. Senken\nChief Financial Officer"
+)
+
+
+def test_anonymize_masks_short_name_people_and_products():
+    from pecora.ingestion.anonymizer import anonymize
+    out, report = anonymize(FILING_TEXT, "MIMEDX GROUP, INC.", "MDXG")
+    for leaked in ("MiMedx", "Petit", "Senken", "EpiFix", "AmnioFix", "SolidFire"):
+        assert leaked not in out, leaked
+    assert "February 1" in out and "Black-Scholes" in out  # dates and hyphenated terms untouched
+    assert "general overhead" in out and "General and administrative" in out
+    assert report["leaks"] == {}
+
+
+def test_common_first_word_of_company_name_is_not_masked():
+    aliases = build_aliases("GENERAL ELECTRIC CO", "GE", text=FILING_TEXT)
+    assert "General" not in aliases and "GENERAL" not in aliases and "GENERAL ELECTRIC" in aliases

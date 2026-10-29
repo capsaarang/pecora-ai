@@ -48,50 +48,29 @@ def build_section_regex() -> re.Pattern:
     return re.compile(pattern)
 
 
+def _section(name: str, item_number: str, text: str, start: int, end: int) -> Section:
+    """A section whose offsets point at its stripped text, so text[start_char:end_char] == section.text."""
+    raw = text[start:end]
+    body = raw.strip()
+    first = start + len(raw) - len(raw.lstrip())
+    return Section(name, item_number, first, first + len(body), body)
+
+
 def detect_sections(text: str) -> list[Section]:
     """Labeled sections in document order; the whole text as one section if no header is found."""
-    regex = build_section_regex()
-    matches = list(regex.finditer(text))
-
+    matches = list(build_section_regex().finditer(text))
     if not matches:
-        return [Section(
-            name="Full Document",
-            item_number="N/A",
-            start_char=0,
-            end_char=len(text),
-            text=text,
-        )]
+        return [_section("Full Document", "N/A", text, 0, len(text))]
 
     sections = []
     # Keep text before the first header: filings with nonstandard layouts (e.g. GE) put
     # most of the report there and list the Item headers only in a closing index
-    front = text[:matches[0].start()].strip()
-    if len(front) > 200:
-        sections.append(Section(
-            name="Front Matter",
-            item_number="Front",
-            start_char=0,
-            end_char=matches[0].start(),
-            text=front,
-        ))
-
+    if len(text[:matches[0].start()].strip()) > 200:
+        sections.append(_section("Front Matter", "Front", text, 0, matches[0].start()))
     for i, match in enumerate(matches):
-        start = match.start()
         end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
-        section_text = text[start:end].strip()
-
-        # Identify which item this is
-        matched_item = match.group(0).strip()
-        item_name = _lookup_item_name(matched_item)
-
-        sections.append(Section(
-            name=item_name,
-            item_number=matched_item,
-            start_char=start,
-            end_char=end,
-            text=section_text,
-        ))
-
+        item = match.group(0).strip()
+        sections.append(_section(_lookup_item_name(item), item, text, match.start(), end))
     return sections
 
 

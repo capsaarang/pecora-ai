@@ -1,0 +1,19 @@
+[
+ {
+  "id": "MDXG_FY2016_anon",
+  "ticker": "MDXG",
+  "company_name": "MIMEDX GROUP, INC.",
+  "fiscal_year": 2016,
+  "filing_date": "2017-03-01",
+  "anonymized": true,
+  "signal_score": 0,
+  "verdicts": {
+   "DISMISSED": 4,
+   "UPHELD": 0,
+   "INCONCLUSIVE": 1,
+   "ERROR": 0
+  },
+  "debated": 5,
+  "screened": 16
+ }
+]

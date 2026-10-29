@@ -1,0 +1,2557 @@
+{
+ "SMCI": {
+  "name": "Super Micro Computer, Inc.",
+  "cik": 1375365,
+  "uploads": 11,
+  "tenk_letters": 5,
+  "reviewed_fys": {
+   "2008": {
+    "letters": 3,
+    "initial": 13,
+    "topics": {
+     "estimates_reserves": 1,
+     "receivables_inventory": 1,
+     "revenue": 1,
+     "compensation": 8,
+     "liquidity_mda": 2
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "other": 1,
+     "controls": 2
+    }
+   }
+  },
+  "initial_comments": 16,
+  "accounting_comments": 7
+ },
+ "MDXG": {
+  "name": "MIMEDX GROUP, INC.",
+  "cik": 1376339,
+  "uploads": 24,
+  "tenk_letters": 9,
+  "reviewed_fys": {
+   "2008": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "other": 3,
+     "controls": 1
+    }
+   },
+   "2015": {
+    "letters": 4,
+    "initial": 14,
+    "topics": {
+     "non_gaap": 2,
+     "controls": 1,
+     "segments": 1,
+     "impairment": 3,
+     "other": 2,
+     "estimates_reserves": 2,
+     "liquidity_mda": 1,
+     "revenue": 2
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 14,
+    "topics": {
+     "revenue": 6,
+     "other": 5,
+     "impairment": 1,
+     "estimates_reserves": 1,
+     "restatement_error": 1
+    }
+   },
+   "2023": {
+    "letters": 1,
+    "initial": 4,
+    "topics": {
+     "other": 1,
+     "segments": 3
+    }
+   }
+  },
+  "initial_comments": 36,
+  "accounting_comments": 25
+ },
+ "UA": {
+  "name": "Under Armour, Inc.",
+  "cik": 1336917,
+  "uploads": 18,
+  "tenk_letters": 15,
+  "reviewed_fys": {
+   "2010": {
+    "letters": 4,
+    "initial": 16,
+    "topics": {
+     "segments": 9,
+     "receivables_inventory": 1,
+     "revenue": 4,
+     "other": 2
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "liquidity_mda": 1,
+     "estimates_reserves": 1,
+     "other": 1,
+     "segments": 2
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "liquidity_mda": 1,
+     "impairment": 1,
+     "tax": 1
+    }
+   },
+   "2020": {
+    "letters": 3,
+    "initial": 8,
+    "topics": {
+     "other": 7,
+     "liquidity_mda": 1
+    }
+   },
+   "2021": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "other": 1,
+     "non_gaap": 1
+    }
+   },
+   "2025": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "impairment": 1
+    }
+   }
+  },
+  "initial_comments": 35,
+  "accounting_comments": 24
+ },
+ "KHC": {
+  "name": "Kraft Heinz Co",
+  "cik": 1637459,
+  "uploads": 10,
+  "tenk_letters": 3,
+  "reviewed_fys": {
+   "2016": {
+    "letters": 3,
+    "initial": 2,
+    "topics": {
+     "compensation": 2
+    }
+   }
+  },
+  "initial_comments": 2,
+  "accounting_comments": 0
+ },
+ "GE": {
+  "name": "GENERAL ELECTRIC CO",
+  "cik": 40545,
+  "uploads": 45,
+  "tenk_letters": 32,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 1,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2007": {
+    "letters": 3,
+    "initial": 10,
+    "topics": {
+     "segments": 3,
+     "revenue": 3,
+     "other": 1,
+     "estimates_reserves": 1,
+     "non_gaap": 2
+    }
+   },
+   "2008": {
+    "letters": 3,
+    "initial": 20,
+    "topics": {
+     "estimates_reserves": 3,
+     "liquidity_mda": 5,
+     "impairment": 5,
+     "other": 6,
+     "receivables_inventory": 1
+    }
+   },
+   "2009": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "estimates_reserves": 1
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 15,
+    "topics": {
+     "non_gaap": 1,
+     "receivables_inventory": 1,
+     "estimates_reserves": 3,
+     "other": 5,
+     "liquidity_mda": 1,
+     "compensation": 2,
+     "impairment": 2
+    }
+   },
+   "2011": {
+    "letters": 3,
+    "initial": 8,
+    "topics": {
+     "restatement_error": 2,
+     "other": 2,
+     "non_gaap": 1,
+     "receivables_inventory": 1,
+     "liquidity_mda": 1,
+     "tax": 1
+    }
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "segments": 1,
+     "estimates_reserves": 2
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "receivables_inventory": 1,
+     "tax": 3
+    }
+   },
+   "2014": {
+    "letters": 3,
+    "initial": 17,
+    "topics": {
+     "restatement_error": 2,
+     "other": 6,
+     "non_gaap": 3,
+     "impairment": 3,
+     "receivables_inventory": 1,
+     "estimates_reserves": 1,
+     "tax": 1
+    }
+   },
+   "2015": {
+    "letters": 3,
+    "initial": 25,
+    "topics": {
+     "other": 5,
+     "segments": 6,
+     "liquidity_mda": 1,
+     "non_gaap": 10,
+     "estimates_reserves": 1,
+     "tax": 1,
+     "receivables_inventory": 1
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 16,
+    "topics": {
+     "non_gaap": 3,
+     "segments": 6,
+     "other": 3,
+     "estimates_reserves": 1,
+     "liquidity_mda": 1,
+     "tax": 2
+    }
+   },
+   "2017": {
+    "letters": 3,
+    "initial": 25,
+    "topics": {
+     "restatement_error": 1,
+     "other": 5,
+     "liquidity_mda": 5,
+     "non_gaap": 6,
+     "segments": 2,
+     "revenue": 5,
+     "estimates_reserves": 1
+    }
+   },
+   "2018": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "impairment": 1
+    }
+   }
+  },
+  "initial_comments": 147,
+  "accounting_comments": 112
+ },
+ "BHC": {
+  "name": "Bausch Health Companies Inc.",
+  "cik": 885590,
+  "uploads": 28,
+  "tenk_letters": 11,
+  "reviewed_fys": {
+   "2011": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "receivables_inventory": 2,
+     "other": 1
+    }
+   },
+   "2012": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "segments": 1,
+     "revenue": 2,
+     "other": 1
+    }
+   },
+   "2015": {
+    "letters": 4,
+    "initial": 18,
+    "topics": {
+     "restatement_error": 1,
+     "impairment": 1,
+     "controls": 1,
+     "revenue": 1,
+     "other": 1,
+     "tax": 4,
+     "non_gaap": 8,
+     "receivables_inventory": 1
+    }
+   },
+   "2018": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "revenue": 1
+    }
+   }
+  },
+  "initial_comments": 26,
+  "accounting_comments": 23
+ },
+ "HTZ": {
+  "name": "HERTZ GLOBAL HOLDINGS, INC",
+  "cik": 1657853,
+  "uploads": 9,
+  "tenk_letters": 1,
+  "reviewed_fys": {
+   "2014": {
+    "letters": 1,
+    "initial": 15,
+    "topics": {
+     "other": 9,
+     "liquidity_mda": 1,
+     "non_gaap": 1,
+     "compensation": 1,
+     "related_party": 1,
+     "segments": 2
+    }
+   }
+  },
+  "initial_comments": 15,
+  "accounting_comments": 5
+ },
+ "TSLA": {
+  "name": "Tesla, Inc.",
+  "cik": 1318605,
+  "uploads": 26,
+  "tenk_letters": 5,
+  "reviewed_fys": {
+   "2015": {
+    "letters": 2,
+    "initial": 36,
+    "topics": {
+     "estimates_reserves": 4,
+     "other": 19,
+     "liquidity_mda": 6,
+     "compensation": 1,
+     "tax": 2,
+     "revenue": 1,
+     "non_gaap": 3
+    }
+   },
+   "2022": {
+    "letters": 3,
+    "initial": 3,
+    "topics": {
+     "estimates_reserves": 1,
+     "tax": 1,
+     "other": 1
+    }
+   }
+  },
+  "initial_comments": 39,
+  "accounting_comments": 18
+ },
+ "NTAP": {
+  "name": "NetApp, Inc.",
+  "cik": 1002047,
+  "uploads": 21,
+  "tenk_letters": 20,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 1,
+    "initial": 17,
+    "topics": {
+     "estimates_reserves": 2,
+     "other": 5,
+     "liquidity_mda": 1,
+     "revenue": 5,
+     "segments": 2,
+     "impairment": 1,
+     "non_gaap": 1
+    }
+   },
+   "2006": {
+    "letters": 4,
+    "initial": 16,
+    "topics": {
+     "other": 5,
+     "revenue": 4,
+     "tax": 1,
+     "segments": 1,
+     "non_gaap": 2,
+     "restatement_error": 3
+    }
+   },
+   "2009": {
+    "letters": 5,
+    "initial": 8,
+    "topics": {
+     "revenue": 2,
+     "other": 3,
+     "liquidity_mda": 2,
+     "related_party": 1
+    }
+   },
+   "2011": {
+    "letters": 5,
+    "initial": 10,
+    "topics": {
+     "controls": 1,
+     "revenue": 2,
+     "sanctions": 5,
+     "restatement_error": 2
+    }
+   },
+   "2022": {
+    "letters": 3,
+    "initial": 1,
+    "topics": {
+     "segments": 1
+    }
+   },
+   "2025": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "other": 1,
+     "segments": 2,
+     "liquidity_mda": 1
+    }
+   }
+  },
+  "initial_comments": 56,
+  "accounting_comments": 37
+ },
+ "HPE": {
+  "name": "Hewlett Packard Enterprise Co",
+  "cik": 1645590,
+  "uploads": 14,
+  "tenk_letters": 3,
+  "reviewed_fys": {
+   "2014": {
+    "letters": 1,
+    "initial": 0,
+    "topics": {}
+   },
+   "2019": {
+    "letters": 1,
+    "initial": 5,
+    "topics": {
+     "non_gaap": 2,
+     "revenue": 2,
+     "other": 1
+    }
+   },
+   "2022": {
+    "letters": 1,
+    "initial": 1,
+    "topics": {
+     "segments": 1
+    }
+   }
+  },
+  "initial_comments": 6,
+  "accounting_comments": 5
+ },
+ "DELL": {
+  "name": "Dell Technologies Inc.",
+  "cik": 1571996,
+  "uploads": 14,
+  "tenk_letters": 0,
+  "reviewed_fys": {},
+  "initial_comments": 0,
+  "accounting_comments": 0
+ },
+ "CSCO": {
+  "name": "CISCO SYSTEMS, INC.",
+  "cik": 858877,
+  "uploads": 26,
+  "tenk_letters": 23,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "controls": 1,
+     "non_gaap": 3,
+     "other": 1
+    }
+   },
+   "2006": {
+    "letters": 4,
+    "initial": 7,
+    "topics": {
+     "restatement_error": 4,
+     "revenue": 2,
+     "other": 1
+    }
+   },
+   "2008": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "other": 2,
+     "receivables_inventory": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2010": {
+    "letters": 2,
+    "initial": 13,
+    "topics": {
+     "sanctions": 2,
+     "revenue": 1,
+     "other": 2,
+     "restatement_error": 1,
+     "liquidity_mda": 2,
+     "tax": 4,
+     "compensation": 1
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "other": 1,
+     "estimates_reserves": 2
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "sanctions": 1
+    }
+   },
+   "2014": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "segments": 2,
+     "liquidity_mda": 1,
+     "other": 2
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "sanctions": 1
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "non_gaap": 1
+    }
+   }
+  },
+  "initial_comments": 44,
+  "accounting_comments": 30
+ },
+ "IBM": {
+  "name": "INTERNATIONAL BUSINESS MACHINES CORP",
+  "cik": 51143,
+  "uploads": 20,
+  "tenk_letters": 15,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "other": 1,
+     "non_gaap": 1,
+     "restatement_error": 4
+    }
+   },
+   "2007": {
+    "letters": 1,
+    "initial": 4,
+    "topics": {
+     "segments": 1,
+     "other": 3
+    }
+   },
+   "2008": {
+    "letters": 4,
+    "initial": 13,
+    "topics": {
+     "restatement_error": 2,
+     "liquidity_mda": 3,
+     "segments": 1,
+     "non_gaap": 1,
+     "revenue": 1,
+     "estimates_reserves": 1,
+     "other": 3,
+     "compensation": 1
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "estimates_reserves": 2,
+     "liquidity_mda": 1,
+     "non_gaap": 1
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "revenue": 2,
+     "sanctions": 2
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "restatement_error": 2,
+     "sanctions": 1
+    }
+   }
+  },
+  "initial_comments": 34,
+  "accounting_comments": 23
+ },
+ "ANET": {
+  "name": "Arista Networks, Inc.",
+  "cik": 1596532,
+  "uploads": 8,
+  "tenk_letters": 4,
+  "reviewed_fys": {
+   "2023": {
+    "letters": 4,
+    "initial": 5,
+    "topics": {
+     "liquidity_mda": 2,
+     "receivables_inventory": 1,
+     "revenue": 1,
+     "segments": 1
+    }
+   }
+  },
+  "initial_comments": 5,
+  "accounting_comments": 5
+ },
+ "NTNX": {
+  "name": "Nutanix, Inc.",
+  "cik": 1618732,
+  "uploads": 9,
+  "tenk_letters": 4,
+  "reviewed_fys": {
+   "2017": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "other": 1
+    }
+   },
+   "2024": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "revenue": 2,
+     "non_gaap": 1
+    }
+   }
+  },
+  "initial_comments": 5,
+  "accounting_comments": 4
+ },
+ "WDC": {
+  "name": "WESTERN DIGITAL CORP",
+  "cik": 106040,
+  "uploads": 21,
+  "tenk_letters": 16,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 2,
+    "initial": 7,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "other": 2,
+     "controls": 1,
+     "non_gaap": 2
+    }
+   },
+   "2008": {
+    "letters": 1,
+    "initial": 2,
+    "topics": {
+     "liquidity_mda": 2
+    }
+   },
+   "2009": {
+    "letters": 3,
+    "initial": 3,
+    "topics": {
+     "impairment": 1,
+     "non_gaap": 2
+    }
+   },
+   "2011": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "tax": 1,
+     "other": 1,
+     "estimates_reserves": 3
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "tax": 1
+    }
+   },
+   "2019": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "non_gaap": 2,
+     "liquidity_mda": 2
+    }
+   },
+   "2023": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "impairment": 1,
+     "segments": 2
+    }
+   }
+  },
+  "initial_comments": 25,
+  "accounting_comments": 22
+ },
+ "STX": {
+  "name": "Seagate Technology Holdings plc",
+  "cik": 1137789,
+  "uploads": 19,
+  "tenk_letters": 17,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 3,
+    "initial": 16,
+    "topics": {
+     "other": 7,
+     "related_party": 1,
+     "controls": 4,
+     "compensation": 2,
+     "non_gaap": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2006": {
+    "letters": 3,
+    "initial": 13,
+    "topics": {
+     "liquidity_mda": 1,
+     "impairment": 1,
+     "revenue": 2,
+     "segments": 1,
+     "other": 5,
+     "estimates_reserves": 1,
+     "non_gaap": 2
+    }
+   },
+   "2008": {
+    "letters": 3,
+    "initial": 15,
+    "topics": {
+     "other": 5,
+     "liquidity_mda": 1,
+     "estimates_reserves": 1,
+     "tax": 1,
+     "impairment": 5,
+     "compensation": 2
+    }
+   },
+   "2009": {
+    "letters": 1,
+    "initial": 7,
+    "topics": {
+     "revenue": 1,
+     "other": 3,
+     "compensation": 3
+    }
+   },
+   "2010": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "other": 1,
+     "estimates_reserves": 2
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "compensation": 1
+    }
+   },
+   "2012": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "liquidity_mda": 2,
+     "revenue": 2,
+     "related_party": 1,
+     "tax": 1
+    }
+   }
+  },
+  "initial_comments": 61,
+  "accounting_comments": 32
+ },
+ "NKE": {
+  "name": "NIKE, Inc.",
+  "cik": 320187,
+  "uploads": 15,
+  "tenk_letters": 10,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 1,
+    "initial": 2,
+    "topics": {
+     "restatement_error": 2
+    }
+   },
+   "2007": {
+    "letters": 1,
+    "initial": 7,
+    "topics": {
+     "liquidity_mda": 2,
+     "compensation": 2,
+     "segments": 1,
+     "other": 2
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 8,
+    "topics": {
+     "other": 3,
+     "segments": 2,
+     "liquidity_mda": 1,
+     "impairment": 2
+    }
+   },
+   "2009": {
+    "letters": 1,
+    "initial": 5,
+    "topics": {
+     "estimates_reserves": 1,
+     "other": 4
+    }
+   },
+   "2012": {
+    "letters": 3,
+    "initial": 13,
+    "topics": {
+     "estimates_reserves": 2,
+     "receivables_inventory": 2,
+     "segments": 4,
+     "impairment": 2,
+     "non_gaap": 1,
+     "tax": 1,
+     "other": 1
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "liquidity_mda": 2,
+     "other": 1,
+     "estimates_reserves": 1,
+     "segments": 1
+    }
+   }
+  },
+  "initial_comments": 40,
+  "accounting_comments": 27
+ },
+ "LULU": {
+  "name": "lululemon athletica inc.",
+  "cik": 1397187,
+  "uploads": 19,
+  "tenk_letters": 6,
+  "reviewed_fys": {
+   "2011": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "compensation": 2
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "other": 2,
+     "tax": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "non_gaap": 3,
+     "tax": 1
+    }
+   }
+  },
+  "initial_comments": 10,
+  "accounting_comments": 6
+ },
+ "KO": {
+  "name": "COCA COLA CO",
+  "cik": 21344,
+  "uploads": 30,
+  "tenk_letters": 11,
+  "reviewed_fys": {
+   "2004": {
+    "letters": 3,
+    "initial": 9,
+    "topics": {
+     "estimates_reserves": 2,
+     "impairment": 2,
+     "non_gaap": 1,
+     "revenue": 1,
+     "other": 3
+    }
+   },
+   "2005": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "restatement_error": 2,
+     "sanctions": 1
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 9,
+    "topics": {
+     "tax": 2,
+     "other": 1,
+     "estimates_reserves": 4,
+     "non_gaap": 2
+    }
+   },
+   "2011": {
+    "letters": 1,
+    "initial": 1,
+    "topics": {
+     "tax": 1
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "estimates_reserves": 1
+    }
+   }
+  },
+  "initial_comments": 23,
+  "accounting_comments": 18
+ },
+ "PEP": {
+  "name": "PEPSICO INC",
+  "cik": 77476,
+  "uploads": 25,
+  "tenk_letters": 3,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 1,
+    "initial": 1,
+    "topics": {
+     "segments": 1
+    }
+   },
+   "2009": {
+    "letters": 1,
+    "initial": 5,
+    "topics": {
+     "other": 1,
+     "non_gaap": 4
+    }
+   },
+   "2012": {
+    "letters": 1,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   }
+  },
+  "initial_comments": 8,
+  "accounting_comments": 7
+ },
+ "GIS": {
+  "name": "GENERAL MILLS INC",
+  "cik": 40704,
+  "uploads": 29,
+  "tenk_letters": 18,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "other": 4,
+     "non_gaap": 1,
+     "related_party": 1
+    }
+   },
+   "2006": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "non_gaap": 1,
+     "impairment": 2,
+     "other": 1,
+     "controls": 2
+    }
+   },
+   "2007": {
+    "letters": 1,
+    "initial": 5,
+    "topics": {
+     "other": 2,
+     "compensation": 3
+    }
+   },
+   "2008": {
+    "letters": 1,
+    "initial": 1,
+    "topics": {
+     "estimates_reserves": 1
+    }
+   },
+   "2009": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2018": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "revenue": 1
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "non_gaap": 2,
+     "revenue": 2
+    }
+   },
+   "2021": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "other": 1
+    }
+   }
+  },
+  "initial_comments": 30,
+  "accounting_comments": 19
+ },
+ "CAG": {
+  "name": "CONAGRA BRANDS INC.",
+  "cik": 23217,
+  "uploads": 25,
+  "tenk_letters": 14,
+  "reviewed_fys": {
+   "2004": {
+    "letters": 1,
+    "initial": 6,
+    "topics": {
+     "estimates_reserves": 3,
+     "impairment": 2,
+     "related_party": 1
+    }
+   },
+   "2005": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "impairment": 1,
+     "compensation": 3,
+     "other": 2
+    }
+   },
+   "2006": {
+    "letters": 1,
+    "initial": 2,
+    "topics": {
+     "controls": 2
+    }
+   },
+   "2007": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "compensation": 3,
+     "other": 1,
+     "segments": 1
+    }
+   },
+   "2008": {
+    "letters": 4,
+    "initial": 4,
+    "topics": {
+     "receivables_inventory": 3,
+     "other": 1
+    }
+   },
+   "2021": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "receivables_inventory": 1,
+     "other": 1
+    }
+   },
+   "2024": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "impairment": 1,
+     "non_gaap": 2
+    }
+   }
+  },
+  "initial_comments": 28,
+  "accounting_comments": 17
+ },
+ "MDT": {
+  "name": "Medtronic plc",
+  "cik": 1613103,
+  "uploads": 14,
+  "tenk_letters": 7,
+  "reviewed_fys": {
+   "2015": {
+    "letters": 2,
+    "initial": 9,
+    "topics": {
+     "non_gaap": 6,
+     "tax": 1,
+     "segments": 2
+    }
+   },
+   "2016": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "segments": 1,
+     "tax": 1,
+     "non_gaap": 2
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "tax": 1,
+     "other": 1
+    }
+   }
+  },
+  "initial_comments": 17,
+  "accounting_comments": 16
+ },
+ "ABT": {
+  "name": "ABBOTT LABORATORIES",
+  "cik": 1800,
+  "uploads": 41,
+  "tenk_letters": 29,
+  "reviewed_fys": {
+   "2004": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "other": 1
+    }
+   },
+   "2006": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "estimates_reserves": 2,
+     "impairment": 2,
+     "receivables_inventory": 1
+    }
+   },
+   "2007": {
+    "letters": 1,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "other": 1
+    }
+   },
+   "2009": {
+    "letters": 6,
+    "initial": 11,
+    "topics": {
+     "liquidity_mda": 1,
+     "estimates_reserves": 2,
+     "other": 4,
+     "compensation": 4
+    }
+   },
+   "2010": {
+    "letters": 5,
+    "initial": 17,
+    "topics": {
+     "impairment": 2,
+     "segments": 3,
+     "other": 3,
+     "receivables_inventory": 4,
+     "tax": 3,
+     "estimates_reserves": 2
+    }
+   },
+   "2011": {
+    "letters": 3,
+    "initial": 9,
+    "topics": {
+     "liquidity_mda": 1,
+     "other": 4,
+     "receivables_inventory": 2,
+     "tax": 1,
+     "non_gaap": 1
+    }
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "segments": 1,
+     "other": 1
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "other": 2
+    }
+   },
+   "2016": {
+    "letters": 3,
+    "initial": 7,
+    "topics": {
+     "other": 5,
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2020": {
+    "letters": 3,
+    "initial": 7,
+    "topics": {
+     "other": 5,
+     "liquidity_mda": 2
+    }
+   }
+  },
+  "initial_comments": 63,
+  "accounting_comments": 33
+ },
+ "BSX": {
+  "name": "BOSTON SCIENTIFIC CORP",
+  "cik": 885725,
+  "uploads": 28,
+  "tenk_letters": 17,
+  "reviewed_fys": {
+   "2004": {
+    "letters": 1,
+    "initial": 0,
+    "topics": {}
+   },
+   "2005": {
+    "letters": 1,
+    "initial": 0,
+    "topics": {}
+   },
+   "2006": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "estimates_reserves": 1,
+     "impairment": 2
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "impairment": 2
+    }
+   },
+   "2009": {
+    "letters": 2,
+    "initial": 11,
+    "topics": {
+     "other": 2,
+     "liquidity_mda": 1,
+     "estimates_reserves": 2,
+     "impairment": 5,
+     "compensation": 1
+    }
+   },
+   "2010": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "tax": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2012": {
+    "letters": 3,
+    "initial": 2,
+    "topics": {
+     "impairment": 2
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "other": 1
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "non_gaap": 1,
+     "estimates_reserves": 1
+    }
+   }
+  },
+  "initial_comments": 23,
+  "accounting_comments": 19
+ },
+ "HON": {
+  "name": "HONEYWELL INTERNATIONAL INC",
+  "cik": 773840,
+  "uploads": 32,
+  "tenk_letters": 14,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 2,
+    "initial": 9,
+    "topics": {
+     "compensation": 3,
+     "other": 3,
+     "receivables_inventory": 2,
+     "impairment": 1
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "sanctions": 4,
+     "restatement_error": 1
+    }
+   },
+   "2006": {
+    "letters": 1,
+    "initial": 3,
+    "topics": {
+     "restatement_error": 3
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "sanctions": 1
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "sanctions": 2
+    }
+   },
+   "2021": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "liquidity_mda": 1,
+     "segments": 1,
+     "tax": 1,
+     "receivables_inventory": 1,
+     "non_gaap": 2
+    }
+   },
+   "2024": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "segments": 1,
+     "impairment": 1
+    }
+   }
+  },
+  "initial_comments": 32,
+  "accounting_comments": 19
+ },
+ "MMM": {
+  "name": "3M CO",
+  "cik": 66740,
+  "uploads": 21,
+  "tenk_letters": 18,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 3,
+    "initial": 9,
+    "topics": {
+     "restatement_error": 2,
+     "liquidity_mda": 1,
+     "estimates_reserves": 1,
+     "revenue": 1,
+     "receivables_inventory": 2,
+     "compensation": 2
+    }
+   },
+   "2011": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "restatement_error": 2,
+     "other": 3,
+     "sanctions": 1
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "segments": 1
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "restatement_error": 2
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "segments": 1,
+     "non_gaap": 1
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "estimates_reserves": 2
+    }
+   },
+   "2018": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "non_gaap": 2
+    }
+   },
+   "2022": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "non_gaap": 1
+    }
+   }
+  },
+  "initial_comments": 25,
+  "accounting_comments": 19
+ },
+ "EMR": {
+  "name": "EMERSON ELECTRIC CO",
+  "cik": 32604,
+  "uploads": 15,
+  "tenk_letters": 12,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "non_gaap": 2,
+     "controls": 1,
+     "impairment": 1
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "non_gaap": 1
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "sanctions": 1,
+     "estimates_reserves": 1,
+     "impairment": 2
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "non_gaap": 3
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "revenue": 1
+    }
+   }
+  },
+  "initial_comments": 17,
+  "accounting_comments": 16
+ },
+ "CAR": {
+  "name": "AVIS BUDGET GROUP, INC.",
+  "cik": 723612,
+  "uploads": 28,
+  "tenk_letters": 16,
+  "reviewed_fys": {
+   "2006": {
+    "letters": 3,
+    "initial": 7,
+    "topics": {
+     "segments": 2,
+     "other": 5
+    }
+   },
+   "2010": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2013": {
+    "letters": 4,
+    "initial": 4,
+    "topics": {
+     "restatement_error": 2,
+     "revenue": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "liquidity_mda": 1,
+     "non_gaap": 1
+    }
+   },
+   "2015": {
+    "letters": 3,
+    "initial": 3,
+    "topics": {
+     "segments": 3
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 2
+    }
+   }
+  },
+  "initial_comments": 20,
+  "accounting_comments": 15
+ },
+ "URI": {
+  "name": "UNITED RENTALS, INC.",
+  "cik": 1067701,
+  "uploads": 22,
+  "tenk_letters": 13,
+  "reviewed_fys": {
+   "2008": {
+    "letters": 5,
+    "initial": 25,
+    "topics": {
+     "non_gaap": 1,
+     "impairment": 8,
+     "other": 4,
+     "tax": 1,
+     "revenue": 2,
+     "segments": 3,
+     "compensation": 3,
+     "liquidity_mda": 3
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 8,
+    "topics": {
+     "non_gaap": 1,
+     "other": 3,
+     "liquidity_mda": 1,
+     "segments": 1,
+     "receivables_inventory": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2013": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "other": 4,
+     "controls": 2
+    }
+   },
+   "2015": {
+    "letters": 1,
+    "initial": 3,
+    "topics": {
+     "impairment": 1,
+     "segments": 2
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "non_gaap": 1
+    }
+   }
+  },
+  "initial_comments": 43,
+  "accounting_comments": 29
+ },
+ "ORCL": {
+  "name": "ORACLE CORP",
+  "cik": 1341439,
+  "uploads": 31,
+  "tenk_letters": 24,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 3,
+    "initial": 120,
+    "topics": {
+     "other": 89,
+     "estimates_reserves": 8,
+     "revenue": 4,
+     "liquidity_mda": 2,
+     "compensation": 1,
+     "controls": 5,
+     "non_gaap": 6,
+     "tax": 1,
+     "segments": 4
+    }
+   },
+   "2009": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 11,
+    "topics": {
+     "compensation": 2,
+     "non_gaap": 1,
+     "other": 1,
+     "revenue": 4,
+     "estimates_reserves": 2,
+     "segments": 1
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "estimates_reserves": 2
+    }
+   },
+   "2006": {
+    "letters": 1,
+    "initial": 4,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "other": 1,
+     "sanctions": 1
+    }
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "revenue": 2,
+     "sanctions": 1,
+     "restatement_error": 1
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "impairment": 1,
+     "revenue": 1
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "restatement_error": 2
+    }
+   },
+   "2020": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "revenue": 1,
+     "liquidity_mda": 1
+    }
+   },
+   "2024": {
+    "letters": 3,
+    "initial": 2,
+    "topics": {
+     "liquidity_mda": 2
+    }
+   },
+   "2025": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "other": 2
+    }
+   }
+  },
+  "initial_comments": 153,
+  "accounting_comments": 55
+ },
+ "ADBE": {
+  "name": "ADOBE INC.",
+  "cik": 796343,
+  "uploads": 31,
+  "tenk_letters": 25,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 4,
+    "initial": 4,
+    "topics": {
+     "other": 1,
+     "impairment": 1,
+     "non_gaap": 2
+    }
+   },
+   "2006": {
+    "letters": 3,
+    "initial": 10,
+    "topics": {
+     "controls": 2,
+     "restatement_error": 1,
+     "revenue": 6,
+     "other": 1
+    }
+   },
+   "2007": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "segments": 1,
+     "controls": 1,
+     "revenue": 1,
+     "non_gaap": 1
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "revenue": 3,
+     "liquidity_mda": 1,
+     "controls": 2
+    }
+   },
+   "2010": {
+    "letters": 4,
+    "initial": 8,
+    "topics": {
+     "tax": 2,
+     "revenue": 2,
+     "other": 4
+    }
+   },
+   "2013": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "revenue": 3,
+     "impairment": 1,
+     "segments": 1,
+     "other": 1
+    }
+   },
+   "2015": {
+    "letters": 3,
+    "initial": 2,
+    "topics": {
+     "other": 1,
+     "controls": 1
+    }
+   },
+   "2018": {
+    "letters": 3,
+    "initial": 1,
+    "topics": {
+     "revenue": 1
+    }
+   }
+  },
+  "initial_comments": 41,
+  "accounting_comments": 33
+ },
+ "CRM": {
+  "name": "Salesforce, Inc.",
+  "cik": 1108524,
+  "uploads": 29,
+  "tenk_letters": 21,
+  "reviewed_fys": {
+   "2006": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "liquidity_mda": 1,
+     "non_gaap": 4
+    }
+   },
+   "2007": {
+    "letters": 1,
+    "initial": 1,
+    "topics": {
+     "other": 1
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 8,
+    "topics": {
+     "other": 1,
+     "controls": 2,
+     "compensation": 3,
+     "related_party": 2
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 9,
+    "topics": {
+     "liquidity_mda": 1,
+     "other": 5,
+     "controls": 2,
+     "compensation": 1
+    }
+   },
+   "2012": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "revenue": 1,
+     "segments": 1,
+     "tax": 1,
+     "estimates_reserves": 3
+    }
+   },
+   "2013": {
+    "letters": 4,
+    "initial": 5,
+    "topics": {
+     "liquidity_mda": 1,
+     "other": 4
+    }
+   },
+   "2014": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "liquidity_mda": 1,
+     "revenue": 1,
+     "non_gaap": 2
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "non_gaap": 1
+    }
+   }
+  },
+  "initial_comments": 39,
+  "accounting_comments": 24
+ },
+ "INTC": {
+  "name": "INTEL CORP",
+  "cik": 50863,
+  "uploads": 24,
+  "tenk_letters": 21,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "liquidity_mda": 1,
+     "non_gaap": 2,
+     "compensation": 2,
+     "tax": 1
+    }
+   },
+   "2007": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "revenue": 3,
+     "other": 3
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "revenue": 1
+    }
+   },
+   "2009": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "other": 1
+    }
+   },
+   "2011": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "non_gaap": 1,
+     "other": 1,
+     "liquidity_mda": 1,
+     "segments": 3
+    }
+   },
+   "2012": {
+    "letters": 4,
+    "initial": 14,
+    "topics": {
+     "segments": 2,
+     "other": 3,
+     "tax": 2,
+     "liquidity_mda": 4,
+     "receivables_inventory": 3
+    }
+   },
+   "2014": {
+    "letters": 2,
+    "initial": 6,
+    "topics": {
+     "segments": 5,
+     "other": 1
+    }
+   },
+   "2016": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "segments": 1,
+     "tax": 2
+    }
+   },
+   "2024": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "estimates_reserves": 1,
+     "impairment": 1,
+     "segments": 1
+    }
+   }
+  },
+  "initial_comments": 46,
+  "accounting_comments": 35
+ },
+ "AMD": {
+  "name": "ADVANCED MICRO DEVICES INC",
+  "cik": 2488,
+  "uploads": 31,
+  "tenk_letters": 20,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 2,
+    "initial": 16,
+    "topics": {
+     "restatement_error": 1,
+     "other": 8,
+     "revenue": 2,
+     "impairment": 2,
+     "liquidity_mda": 2,
+     "receivables_inventory": 1
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "revenue": 1
+    }
+   },
+   "2009": {
+    "letters": 3,
+    "initial": 10,
+    "topics": {
+     "liquidity_mda": 2,
+     "receivables_inventory": 2,
+     "other": 2,
+     "segments": 3,
+     "compensation": 1
+    }
+   },
+   "2010": {
+    "letters": 4,
+    "initial": 7,
+    "topics": {
+     "other": 6,
+     "related_party": 1
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "other": 1,
+     "segments": 3
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "segments": 3,
+     "other": 1
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "revenue": 4,
+     "receivables_inventory": 1
+    }
+   },
+   "2022": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "liquidity_mda": 2,
+     "other": 2
+    }
+   }
+  },
+  "initial_comments": 51,
+  "accounting_comments": 30
+ },
+ "NVDA": {
+  "name": "NVIDIA CORP",
+  "cik": 1045810,
+  "uploads": 31,
+  "tenk_letters": 24,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "liquidity_mda": 1,
+     "other": 1,
+     "compensation": 1,
+     "non_gaap": 1
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "other": 2,
+     "estimates_reserves": 1,
+     "impairment": 1
+    }
+   },
+   "2010": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "other": 1
+    }
+   },
+   "2011": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "tax": 1
+    }
+   },
+   "2013": {
+    "letters": 4,
+    "initial": 4,
+    "topics": {
+     "receivables_inventory": 1,
+     "impairment": 1,
+     "revenue": 1,
+     "estimates_reserves": 1
+    }
+   },
+   "2014": {
+    "letters": 4,
+    "initial": 2,
+    "topics": {
+     "segments": 2
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "other": 2,
+     "liquidity_mda": 1
+    }
+   },
+   "2019": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "segments": 1
+    }
+   },
+   "2023": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "compensation": 1,
+     "other": 1,
+     "revenue": 2
+    }
+   },
+   "2025": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "non_gaap": 1,
+     "revenue": 1,
+     "segments": 2
+    }
+   }
+  },
+  "initial_comments": 28,
+  "accounting_comments": 19
+ },
+ "QCOM": {
+  "name": "QUALCOMM INC/DE",
+  "cik": 804328,
+  "uploads": 30,
+  "tenk_letters": 16,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "revenue": 1,
+     "compensation": 2
+    }
+   },
+   "2009": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "liquidity_mda": 1,
+     "impairment": 2,
+     "segments": 1
+    }
+   },
+   "2010": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "liquidity_mda": 1,
+     "other": 2,
+     "tax": 1
+    }
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "liquidity_mda": 1
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "revenue": 1,
+     "restatement_error": 1,
+     "sanctions": 1
+    }
+   },
+   "2017": {
+    "letters": 4,
+    "initial": 2,
+    "topics": {
+     "estimates_reserves": 2
+    }
+   },
+   "2018": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "revenue": 1,
+     "sanctions": 2,
+     "restatement_error": 1,
+     "other": 1
+    }
+   }
+  },
+  "initial_comments": 22,
+  "accounting_comments": 14
+ },
+ "TXN": {
+  "name": "TEXAS INSTRUMENTS INC",
+  "cik": 97476,
+  "uploads": 24,
+  "tenk_letters": 16,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "revenue": 2,
+     "non_gaap": 1,
+     "other": 1,
+     "related_party": 1
+    }
+   },
+   "2008": {
+    "letters": 2,
+    "initial": 5,
+    "topics": {
+     "controls": 1,
+     "other": 1,
+     "receivables_inventory": 3
+    }
+   },
+   "2011": {
+    "letters": 3,
+    "initial": 9,
+    "topics": {
+     "other": 1,
+     "segments": 7,
+     "liquidity_mda": 1
+    }
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "receivables_inventory": 1,
+     "tax": 2
+    }
+   },
+   "2015": {
+    "letters": 2,
+    "initial": 3,
+    "topics": {
+     "restatement_error": 2,
+     "sanctions": 1
+    }
+   },
+   "2018": {
+    "letters": 2,
+    "initial": 1,
+    "topics": {
+     "tax": 1
+    }
+   },
+   "2024": {
+    "letters": 3,
+    "initial": 7,
+    "topics": {
+     "tax": 1,
+     "receivables_inventory": 2,
+     "segments": 3,
+     "other": 1
+    }
+   }
+  },
+  "initial_comments": 33,
+  "accounting_comments": 28
+ },
+ "AAPL": {
+  "name": "Apple Inc.",
+  "cik": 320193,
+  "uploads": 30,
+  "tenk_letters": 27,
+  "reviewed_fys": {
+   "2005": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "segments": 1,
+     "non_gaap": 2,
+     "restatement_error": 1
+    }
+   },
+   "2006": {
+    "letters": 4,
+    "initial": 11,
+    "topics": {
+     "revenue": 6,
+     "restatement_error": 2,
+     "other": 3
+    }
+   },
+   "2007": {
+    "letters": 3,
+    "initial": 4,
+    "topics": {
+     "revenue": 1,
+     "compensation": 3
+    }
+   },
+   "2008": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "estimates_reserves": 3,
+     "other": 2,
+     "non_gaap": 1
+    }
+   },
+   "2009": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "revenue": 3,
+     "other": 2
+    }
+   },
+   "2010": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "other": 3,
+     "compensation": 2
+    }
+   },
+   "2012": {
+    "letters": 3,
+    "initial": 6,
+    "topics": {
+     "tax": 6
+    }
+   },
+   "2014": {
+    "letters": 3,
+    "initial": 10,
+    "topics": {
+     "segments": 6,
+     "liquidity_mda": 2,
+     "other": 2
+    }
+   },
+   "2023": {
+    "letters": 3,
+    "initial": 2,
+    "topics": {
+     "other": 1,
+     "segments": 1
+    }
+   }
+  },
+  "initial_comments": 53,
+  "accounting_comments": 35
+ },
+ "AMZN": {
+  "name": "AMAZON COM INC",
+  "cik": 1018724,
+  "uploads": 39,
+  "tenk_letters": 12,
+  "reviewed_fys": {
+   "2007": {
+    "letters": 1,
+    "initial": 0,
+    "topics": {}
+   },
+   "2012": {
+    "letters": 2,
+    "initial": 2,
+    "topics": {
+     "segments": 1,
+     "other": 1
+    }
+   },
+   "2013": {
+    "letters": 3,
+    "initial": 5,
+    "topics": {
+     "estimates_reserves": 1,
+     "liquidity_mda": 3,
+     "receivables_inventory": 1
+    }
+   },
+   "2016": {
+    "letters": 4,
+    "initial": 7,
+    "topics": {
+     "other": 3,
+     "estimates_reserves": 3,
+     "segments": 1
+    }
+   },
+   "2017": {
+    "letters": 2,
+    "initial": 4,
+    "topics": {
+     "other": 2,
+     "revenue": 2
+    }
+   }
+  },
+  "initial_comments": 18,
+  "accounting_comments": 12
+ }
+}

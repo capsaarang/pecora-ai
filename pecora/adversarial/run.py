@@ -22,10 +22,11 @@ load_dotenv()
 
 from ..screen import Screener
 from ..retrieval.focus_areas import FOCUS_AREAS
-from ..ingestion.anonymizer import anonymize_text, build_aliases, people_for
+from ..ingestion.anonymizer import anonymize as anonymize_filing
 from ..ingestion.chunker import chunk_sections
 from ..ingestion.loader import load_from_file
 from ..ingestion.sections import detect_sections
+from .bundle import attach_filing_spans, filing_record
 from .llm import make_llm
 from .review import AdversarialReviewer, select_candidates, summarize
 
@@ -36,7 +37,7 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
                     label: str | None = None, anonymize: bool = True, mask_years: bool = False,
                     extra_aliases: list[str] | None = None, focus_areas: list[str] | None = None,
                     max_findings: int = 5, k_evidence: int = 5, workers: int = 3,
-                    output_dir: str = "outputs/adversarial", llm=None) -> dict:
+                    output_dir: str = "outputs/adversarial", llm=None, log=print) -> dict:
     # Heavy imports here so tests and the Streamlit viewer stay fast
     from ..retrieval.embedder import get_embedder
     from ..retrieval.retriever import Retriever
@@ -47,7 +48,7 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
             "anonymized": anonymize, "years_masked": mask_years,
             "run_at": datetime.now().isoformat(timespec="seconds")}
 
-    print("[1/5] Loading filing...")
+    log("[1/5] Loading filing...")
     company_name = None
     if file_path:
         text = load_from_file(file_path)
@@ -56,23 +57,23 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
         from ..ingestion.edgar import fetch_10k
         doc = fetch_10k(ticker, year)
         text, company_name = doc["text"], doc["company_name"]
-        meta.update({k: doc[k] for k in ("cik", "filing_date", "report_date", "url")})
+        meta.update({k: doc[k] for k in ("cik", "company_name", "filing_date", "report_date", "url")})
         meta["source"] = doc["url"]
 
     # Anonymize BEFORE anything reaches a model
     if anonymize:
-        aliases = build_aliases(company_name, ticker, extra_aliases)
-        text = anonymize_text(text, aliases, people_for(ticker), mask_years)
-        meta["masked_terms"] = len(aliases) + len(people_for(ticker))
-        print(f"[2/5] Anonymized ({meta['masked_terms']} names masked"
-              f"{', years masked' if mask_years else ''})")
+        text, report = anonymize_filing(text, company_name, ticker, extra_aliases, mask_years)
+        meta["anonymization"] = report
+        log(f"[2/5] Anonymized: {len(report['aliases'])} company names, {len(report['people'])} people, "
+              f"{len(report['products'])} products{', years' if mask_years else ''} masked; "
+              f"leaks {report['leaks'] or 'none'}")
     else:
-        print("[2/5] Anonymization OFF (look-ahead bias not controlled)")
+        log("[2/5] Anonymization OFF (look-ahead bias not controlled)")
 
     shown_name = "[COMPANY]" if anonymize else meta["ticker"]
     shown_year = "[YEAR]" if mask_years else str(year or "unknown")
 
-    print("[3/5] Sectioning, chunking, embedding...")
+    log("[3/5] Sectioning, chunking, embedding...")
     sections = detect_sections(text)
     chunks = chunk_sections(sections)
     embedder = get_embedder()
@@ -81,19 +82,23 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
     retriever = Retriever(embedder, store)
 
     # Screener and agents share one LLM, so llm_calls counts every call in the run
-    print("[4/5] Screening for candidate findings...")
+    log("[4/5] Screening for candidate findings...")
     llm = llm or make_llm()
-    screen = Screener(llm).run(ticker=shown_name, fiscal_year=shown_year,
+    screen = Screener(llm, log=log).run(ticker=shown_name, fiscal_year=shown_year,
                                retrieved_context=retriever.retrieve(focus_keys=focus_areas),
                                retriever=retriever, total_chunks=len(chunks))
     candidates = select_candidates(screen.findings, max_findings)
-    print(f"      {len(screen.findings)} findings, {len(candidates)} sent to adversarial review")
+    log(f"      {len(screen.findings)} findings, {len(candidates)} sent to adversarial review")
     if screen.failed_areas:
-        print(f"      Focus areas that failed: {list(screen.failed_areas)}")
+        log(f"      Focus areas that failed: {list(screen.failed_areas)}")
 
-    print(f"[5/5] Running Auditor / Defender / Adjudicator on {len(candidates)} findings...")
+    log(f"[5/5] Running Auditor / Defender / Adjudicator on {len(candidates)} findings...")
     reviewer = AdversarialReviewer(llm, retriever=retriever, k_evidence=k_evidence)
-    debates = reviewer.review_all([f.to_dict() for f in candidates], workers=workers)
+    debates = reviewer.review_all(
+        [f.to_dict() for f in candidates], workers=workers,
+        on_done=lambda d: log(f"      Trial done: {d.finding.get('title', '')} -> {d.verdict} {d.final_confidence}%"))
+    debate_dicts = [d.to_dict() for d in debates]
+    bundle = attach_filing_spans(debate_dicts, text)
 
     result = {"meta": {**meta, "model": getattr(llm, "model", "custom"),
                        "llm_transport": type(llm).__name__,
@@ -105,7 +110,9 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
                          "debated": [i for i, f in enumerate(screen.findings)
                                      if any(f is c for c in candidates)],
                          "failed_areas": screen.failed_areas},
-              "debates": [d.to_dict() for d in debates]}
+              "debates": debate_dicts,
+              "bundle": bundle,
+              "filing": filing_record(text, sections)}
 
     os.makedirs(output_dir, exist_ok=True)
     fy = f"FY{year}" if year else "local"
@@ -117,12 +124,14 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
 
     s = result["summary"]
     signal = "n/a" if s["signal_score"] is None else f"{s['signal_score']}/100"
-    print(f"\n  Signal score: {signal}   Verdicts: {s['verdicts']}"
+    log(f"\n  Signal score: {signal}   Verdicts: {s['verdicts']}"
           f"   Citation integrity: {s['citation_integrity']}")
     m = result["meta"]
-    print(f"  LLM: {m['llm_transport']} {m['model']}, {m['llm_calls']} calls, "
+    log(f"  LLM: {m['llm_transport']} {m['model']}, {m['llm_calls']} calls, "
           f"tokens in/out {m['llm_tokens']['input']}/{m['llm_tokens']['output']}")
-    print(f"  Saved -> {path}")
+    log(f"  Quotes located in filing: {bundle['located']}/{bundle['citations']}, exact quotes confirmed "
+          f"{bundle['exact_confirmed']}, mismatches {len(bundle['mismatches'])}")
+    log(f"  Saved -> {path}")
     return result
 
 
