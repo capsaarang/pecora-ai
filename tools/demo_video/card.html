@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* Title and end cards, in the website's case-file look */
+html,body{margin:0;width:1280px;height:720px;background:#f6f2e9;color:#1f1c16;
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+.wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 140px}
+.rule{border-top:4px double #1f1c16;border-bottom:1px solid #ddd5c4;height:6px;width:520px;margin-bottom:34px}
+.brand{font-size:84px;font-weight:700;letter-spacing:-2px}
+.line{font-size:32px;margin-top:6px;color:#3a362e}
+.cast{display:flex;gap:16px;margin-top:46px;font:600 19px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+.cast div{border:2px solid;padding:8px 16px;transform:rotate(-1.5deg);background:#fffdf8}
+.a{color:#a3271f}.d{color:#1f4e8c}.j{color:#2f6a33}
+.foot{font-family:ui-sans-serif,system-ui,sans-serif;font-size:21px;color:#6c665a;margin-top:58px}
+.big{font-size:58px;font-weight:700;letter-spacing:-1px;line-height:1.12}
+.cmd{display:inline-block;margin-top:30px;font:22px ui-sans-serif,system-ui,sans-serif;border:1px solid #ddd5c4;background:#fffdf8;padding:14px 22px;color:#6c665a}
+.cmd b{color:#1f1c16}
+</style></head><body><div class="wrap" id="w"></div><script>
+const p=new URLSearchParams(location.search).get('k');
+document.getElementById('w').innerHTML = p=='end' ?
+ '<div class="rule"></div><div class="brand">Pecora.ai</div><div class="big" style="margin-top:22px">Put any 10-K on trial.</div><div><div class="cmd">Run analysis: type a ticker and year, like <b>SMCI 2016</b></div></div><div class="foot">Built at Data Mad 2026, UW-Madison</div>' :
+ '<div class="rule"></div><div class="brand">Pecora.ai</div><div class="line">AI findings you can argue with.</div><div class="cast"><div class="a">Auditor makes the case</div><div class="d">Defender answers it</div><div class="j">Adjudicator rules</div></div><div class="foot">Every red flag in a 10-K goes on trial. Every quote gets checked.</div>';
+</script></body></html>

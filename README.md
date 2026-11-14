@@ -71,6 +71,21 @@ streamlit run app.py
 
 Results save to `outputs/adversarial/`. The app's Case files mode replays them offline.
 
+## The website
+
+The website in `web/` is the app. It needs Node.js 20 or newer.
+
+```bash
+cd web
+npm install
+npm run dev                 # http://127.0.0.1:3000
+```
+
+- **Try the sample trial** opens a fictional filing that works offline, with no model call. Its quote checks, highlights and scores come from the real pipeline code (`python data/demo/build_sample_case.py` rebuilds it).
+- **Watch the 30-second demo** plays `web/public/pecora-demo.mp4`. To record it again with the site running: `bash tools/demo_video/render.sh` (needs Playwright and ffmpeg).
+- **Ask about this filing** on every case page answers follow-up questions using only the passages the trials used, and checks every quote in the answer with the same strict verifier. The sample answers its suggested questions offline; other questions go to Claude (`python -m pecora.ask`).
+- **Run analysis** puts a new filing on trial and adds it to the case files.
+
 With the CLI, each call runs isolated from your own Claude Code setup (no tools, MCP servers, skills or settings), so a call costs about 1k tokens of overhead instead of the 100k+ a default `claude -p` loads. A filing takes about 20 to 25 calls against your subscription's usage limits.
 
 ## Project structure

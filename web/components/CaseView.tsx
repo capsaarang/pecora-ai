@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import AskPanel from "./AskPanel";
 import Citation from "./Citation";
 import FilingViewer from "./FilingViewer";
-import type { CaseFile, Check, Debate } from "@/lib/types";
+import type { CaseFile, Check, Debate, Span } from "@/lib/types";
 
 const VERDICT_TONE: Record<string, string> = {
   UPHELD: "text-upheld", DISMISSED: "text-dismissed", INCONCLUSIVE: "text-inconclusive", ERROR: "text-muted",
@@ -29,13 +30,21 @@ export default function CaseView({ data }: { data: CaseFile }) {
     return checks.get(k)?.filing_spans?.length ? k : null;
   });
   const current = selected ? checks.get(selected) : undefined;
+  // A quote from a follow-up answer, shown in the viewer in place of a trial quote
+  const [pinned, setPinned] = useState<{ spans: Span[]; caption: string } | null>(null);
   const viewer = useRef<HTMLElement>(null);
   const select = (k: Key) => {
+    setPinned(null);
     setSelected(k);
     // Below the two-column breakpoint the viewer sits under the trial: bring it into view
     if (window.innerWidth < 1024) viewer.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  const caption = current ? `${current.agent} ${current.agent === "adjudicator" ? "deciding quote" : `point ${current.index}`}` : null;
+  const showAnswerQuote = (spans: Span[], caption: string) => {
+    setSelected(null);
+    setPinned({ spans, caption });
+    if (window.innerWidth < 1024) viewer.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const caption = pinned ? pinned.caption : current ? `${current.agent} ${current.agent === "adjudicator" ? "deciding quote" : `point ${current.index}`}` : null;
 
   const v = summary.verdicts;
   const integrity = summary.citation_integrity;
@@ -87,9 +96,10 @@ export default function CaseView({ data }: { data: CaseFile }) {
               onSelect={select}
             />
           ))}
+          <AskPanel caseId={data.id} sample={!!meta.sample} suggestions={suggestQuestions(data)} onShow={showAnswerQuote} />
         </div>
         <aside ref={viewer} className="h-[75vh] scroll-mt-20 rounded-md border border-rule bg-card p-4 lg:sticky lg:top-20 lg:h-[calc(100vh-7rem)]">
-          <FilingViewer filing={data.filing} spans={current?.filing_spans ?? null} caption={caption} />
+          <FilingViewer filing={data.filing} spans={pinned?.spans ?? current?.filing_spans ?? null} caption={caption} />
         </aside>
       </div>
     </div>
@@ -190,4 +200,17 @@ function DebateCard({ n, d, open, onToggle, checks, selected, onSelect }: {
       )}
     </article>
   );
+}
+
+/** Starter questions: the sample's offline ones, or two drawn from this case's own trials. */
+function suggestQuestions(data: CaseFile): string[] {
+  if (data.demo_qa?.length) return data.demo_qa.map((q) => q.question);
+  const judged = data.debates.filter((d) => !d.error);
+  const lead = judged.find((d) => d.verdict === "UPHELD") ?? judged[0];
+  const open = judged.find((d) => d.verdict === "INCONCLUSIVE") ?? judged.find((d) => d !== lead);
+  const out: string[] = [];
+  if (lead) out.push(`Why was "${lead.finding.title}" ${lead.verdict.toLowerCase()}?`);
+  if (open) out.push(`What would change the judge's mind on "${open.finding.title}"?`);
+  out.push("Which quote matters most in this filing?");
+  return out;
 }

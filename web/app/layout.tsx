@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import DemoVideo from "@/components/DemoVideo";
 import Nav from "@/components/Nav";
 import "./globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">{children}</main>
         <footer className="mx-auto max-w-7xl border-t border-rule px-4 py-6 font-sans text-xs text-muted sm:px-6">
+          <DemoVideo className="mb-3 block font-sans text-sm text-ink underline decoration-rule underline-offset-4 hover:decoration-ink" />
           Pecora.ai flags questions worth asking. An upheld finding is not evidence of fraud and nothing here is
           investment advice. All filings are public SEC records.
         </footer>

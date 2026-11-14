@@ -86,6 +86,7 @@ export interface CaseFile {
     model?: string;
     llm_calls?: number;
     anonymization?: { aliases: string[]; people: string[]; products: string[]; leaks: Record<string, number> };
+    sample?: boolean; // the fictional offline demo case
   };
   summary: {
     signal_score: number | null;
@@ -99,6 +100,7 @@ export interface CaseFile {
   screen: { findings: number; failed_areas: Record<string, string> };
   debates: Debate[];
   filing: { text: string; sections: Section[] };
+  demo_qa?: { question: string }[]; // sample case only: questions answered offline
 }
 
 export interface CaseSummary {
@@ -112,4 +114,5 @@ export interface CaseSummary {
   verdicts: Record<Verdict, number>;
   debated: number;
   screened: number;
+  sample?: boolean;
 }

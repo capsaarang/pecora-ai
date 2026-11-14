@@ -16,6 +16,12 @@ export default async function CasePage({ params }: { params: Promise<{ id: strin
   return (
     <div className="space-y-4">
       <Link href="/cases/" className="font-sans text-sm text-muted hover:text-ink">← All case files</Link>
+      {data.meta.sample && (
+        <p className="rounded-md border-l-4 border-inconclusive bg-card px-4 py-3 font-sans text-sm">
+          <b>Sample trial.</b> The company and this filing are fictional, written to show how Pecora.ai works with no
+          model call. The quote checks, highlights and scores are computed by the real pipeline code.
+        </p>
+      )}
       <CaseView data={data} />
     </div>
   );

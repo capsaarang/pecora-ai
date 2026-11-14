@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CaseList from "@/components/CaseList";
+import DemoVideo from "@/components/DemoVideo";
 import { listCases } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -37,7 +38,11 @@ export default function Overview() {
           <Link href="/cases/" className="rounded bg-ink px-4 py-2 text-paper hover:bg-ink/85">
             Open the case files
           </Link>
-          <a href="#how" className="rounded border border-ink/30 px-4 py-2 hover:bg-card">
+          <Link href="/cases/DEMO_FY2016_anon/" className="rounded border border-ink/30 px-4 py-2 hover:bg-card">
+            Try the sample trial
+          </Link>
+          <DemoVideo className="rounded border border-ink/30 px-4 py-2 hover:bg-card" />
+          <a href="#how" className="rounded px-4 py-2 text-muted hover:text-ink">
             How it works
           </a>
         </div>

@@ -56,7 +56,12 @@ def export(src: str = "outputs/adversarial", out: str = "web/data") -> list[dict
                       "anonymized": meta.get("anonymized", False), "signal_score": run["summary"]["signal_score"],
                       "verdicts": run["summary"]["verdicts"], "debated": len(run["debates"]),
                       "screened": case["screen"]["findings"]})
-    with open(os.path.join(out, "index.json"), "w", encoding="utf-8") as f:
+    # The sample case (data/demo/build_sample_case.py) has no run file: keep it listed
+    index_path = os.path.join(out, "index.json")
+    if os.path.exists(index_path):
+        with open(index_path, encoding="utf-8") as f:
+            index += [r for r in json.load(f) if r.get("sample") and r["id"] not in newest]
+    with open(index_path, "w", encoding="utf-8") as f:
         json.dump(index, f, indent=1)
     return index
 

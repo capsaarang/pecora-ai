@@ -30,6 +30,7 @@ export default function CaseList({ cases }: { cases: CaseSummary[] }) {
                 Case {i + 1} · FY{c.fiscal_year ?? "?"} · filed {c.filing_date ?? "n/a"}
               </div>
               <div className="mt-1 text-lg font-semibold">{named ? `${c.company_name} (${c.ticker})` : "Sealed filing"}</div>
+              {c.sample && <div className="font-sans text-xs text-inconclusive">Sample trial · fictional company · opens offline</div>}
               <div className="mt-3 flex items-end justify-between font-sans text-sm">
                 <span>
                   <span className="text-2xl font-bold">{c.signal_score ?? "n/a"}</span>

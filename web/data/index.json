@@ -15,5 +15,23 @@
   },
   "debated": 5,
   "screened": 16
+ },
+ {
+  "id": "DEMO_FY2016_anon",
+  "ticker": "DEMO",
+  "company_name": "Northwind Instruments (fictional)",
+  "fiscal_year": 2016,
+  "filing_date": null,
+  "anonymized": true,
+  "signal_score": 39,
+  "verdicts": {
+   "UPHELD": 1,
+   "DISMISSED": 1,
+   "INCONCLUSIVE": 1,
+   "ERROR": 0
+  },
+  "debated": 3,
+  "screened": 9,
+  "sample": true
  }
 ]
