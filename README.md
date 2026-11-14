@@ -69,7 +69,20 @@ python -m pecora.adversarial.backtest --target SMCI:2016 --control NTAP:2016
 streamlit run app.py
 ```
 
-Results save to `outputs/adversarial/`. The app's Case files mode replays them offline.
+Results save to `outputs/adversarial/` and appear in the app's sidebar.
+
+## The app
+
+`streamlit run app.py` opens a chat-style app that works like Claude, ChatGPT or Gemini:
+
+- **Start a review:** type a ticker and fiscal year in the box at the bottom, like `SMCI 2016`. Progress shows step by step, then the trial appears as a conversation.
+- **Read the trial:** each finding gets three messages. The Auditor makes the case, the Defender answers, and the Adjudicator rules with a confidence score. Every quote is marked as found or not found in the filing, and "View filing passages" shows the exact text with the quotes highlighted.
+- **Ask follow-up questions:** once a case is open, ask anything about it in the same box. Answers cite the filing, and those quotes are verified too.
+- **Past cases** are listed in the sidebar like chat history. **Settings** switches between Haiku (cheap, for testing) and Sonnet (final runs) and sets how many findings go to trial.
+- **Demo trial:** a built-in sample case that plays with no API key or internet. It uses a **fictional company** and is labeled as sample data; its verification and scores are computed by the real pipeline (`data/demo/build_sample_case.py`).
+- **Watch the 30-second demo:** a short video of the app in action, at the bottom of the page and in the sidebar, with Skip and Close. Re-record it with `bash tools/demo_video/render.sh` (needs Playwright and ffmpeg).
+
+Fonts are bundled in `static/fonts` (IBM Plex, SIL Open Font License), so the app needs no internet beyond the live API calls.
 
 ## Project structure
 
@@ -79,7 +92,13 @@ pecora/
   retrieval/     embeddings, FAISS store, focus-area retrieval
   screen.py      first-pass candidate finding generator
   adversarial/   agents, prompts, citation verifier, runner, backtest
-app.py           Streamlit demo
+  ask.py         follow-up questions with verified citations
+  demo.py        case files, sample case, run-command parsing
+app.py           chat-style Streamlit app
+assets/          30-second demo video
+data/demo/       fictional sample case and the script that builds it
+static/fonts/    bundled IBM Plex fonts
+tools/           demo video recorder
 tests/           offline test suite
 ```
 

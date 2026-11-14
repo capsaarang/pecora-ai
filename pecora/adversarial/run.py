@@ -97,7 +97,9 @@ def run_adversarial(ticker: str | None = None, year: int | None = None, file_pat
     debates = reviewer.review_all([f.to_dict() for f in candidates], workers=workers)
 
     result = {"meta": {**meta, "model": getattr(llm, "model", "custom"),
-                       "llm_calls": getattr(llm, "calls", None)},
+                       "llm_calls": getattr(llm, "calls", None),
+                       "company_name": company_name,
+                       "screened": len(screen.findings)},
               "summary": summarize(debates),
               "debates": [d.to_dict() for d in debates]}
 

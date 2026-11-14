@@ -1,0 +1,12 @@
+[theme]
+primaryColor = "#24406E"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+enableStaticServing = true

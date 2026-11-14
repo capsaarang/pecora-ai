@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Plex;font-weight:400;src:url('../../static/fonts/ibm-plex-sans-latin-400-normal.woff2')}
+@font-face{font-family:Plex;font-weight:600;src:url('../../static/fonts/ibm-plex-sans-latin-600-normal.woff2')}
+@font-face{font-family:PlexSerif;font-style:italic;src:url('../../static/fonts/ibm-plex-serif-latin-400-italic.woff2')}
+html,body{margin:0;width:1280px;height:720px;background:#fff;color:#1d2433;font-family:Plex,sans-serif}
+.wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 140px}
+.brand{font-size:76px;font-weight:600;letter-spacing:-2px}.brand span{opacity:.45;font-weight:400}
+.line{font-size:30px;margin-top:10px;opacity:.85}
+.cast{display:flex;gap:14px;margin-top:44px;font-size:21px}
+.cast div{border:2px solid;border-radius:999px;padding:8px 20px}
+.a{color:#B03A41}.d{color:#3A6EA5}.j{color:#A07C22}
+.quote{font-family:PlexSerif;font-style:italic;font-size:22px;opacity:.6;margin-top:56px}
+.big{font-size:52px;font-weight:600;letter-spacing:-1px;line-height:1.15}
+.cmd{display:inline-block;margin-top:34px;font-size:26px;border:2px solid #d6d8de;border-radius:14px;padding:16px 26px;color:#55607a}
+.cmd b{color:#1d2433}
+</style></head><body><div class="wrap" id="w"></div><script>
+const p=new URLSearchParams(location.search).get('k');
+document.getElementById('w').innerHTML = p=='end' ?
+ '<div class="brand">Pecora<span>.ai</span></div><div class="big" style="margin-top:28px">Try it on any 10-K.</div><div><div class="cmd">Type a ticker and year, like <b>SMCI 2016</b></div></div><div class="quote">Built at Data Mad 2026, UW-Madison</div>' :
+ '<div class="brand">Pecora<span>.ai</span></div><div class="line">AI findings you can argue with.</div><div class="cast"><div class="a">Auditor makes the case</div><div class="d">Defender answers it</div><div class="j">Adjudicator rules</div></div><div class="quote">Every red flag in a 10-K goes on trial.</div>';
+</script></body></html>
